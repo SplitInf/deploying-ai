@@ -14,7 +14,7 @@
   + [Documents](#documents)
   + [Videos](#videos)
 * [Folder Structure](#folder-structure)
-* [Acknowledgement](#acknowledgement)
+
 
 
 ## Description
