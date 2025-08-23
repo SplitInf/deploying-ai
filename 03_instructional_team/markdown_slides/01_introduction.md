@@ -49,6 +49,28 @@ $ echo "Data Science Institute"
 
 ---
 
+## What Makes AI Different? 
+
++ Scale: a maximalist approach
++ Foundation models are becoming capable of more tasks
+
+    - More applications
+    - More teams leverage AI's capabilities
+
++ Foundation models require more data, compute resources, and specialized talent
+
+    - Model as a service
+
+---
+
+![height:600px](./images/01_artificial-intelligence-parameter-count.png)
+
+---
+
+![height:600px](./images/01_artificial-intelligence-number-training-datapoints.png)
+
+---
+
 # Foundation model use cases
 
 - Coding
