@@ -51,15 +51,11 @@ $ echo "Data Science Institute"
 
 ## What Makes AI Different? 
 
-+ Scale: a maximalist approach
-+ Foundation models are becoming capable of more tasks
-
-    - More applications
-    - More teams leverage AI's capabilities
-
-+ Foundation models require more data, compute resources, and specialized talent
-
-    - Model as a service
++ AI is different because of scale
++ Large Language Models (LLMs) and other Foundation Models (FMs) follow a maximalist approach to creating models: more complex models are trained on more data as more compute and storage become available
++ FMs are becoming capable of more tasks and therefore they are deployed in more applications and more teams leverage their capabilities
++ FMs require more data, compute resources, and specialized talent
++ FMs are delivered as Model-as-a-Service
 
 ---
 
