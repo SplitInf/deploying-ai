@@ -29,6 +29,15 @@ $ echo "Data Science Institute"
 
 ---
 
+## AI Engineering
+
+We will be covering Chapter 1 of AI Engineering, by Chip Huyen.
+
+
+![height:400px](./images/00_ai_engineering.jpg)
+
+---
+
 ## Main Points
 
 ---
@@ -55,7 +64,6 @@ $ echo "Data Science Institute"
 + Large Language Models (LLMs) and other Foundation Models (FMs) follow a maximalist approach to creating models: more complex models are trained on more data as more compute and storage become available
 + FMs are becoming capable of more tasks and therefore they are deployed in more applications and more teams leverage their capabilities
 + FMs require more data, compute resources, and specialized talent
-+ FMs are delivered as Model-as-a-Service
 
 ---
 
@@ -64,6 +72,13 @@ $ echo "Data Science Institute"
 ---
 
 ![height:600px](./images/01_artificial-intelligence-number-training-datapoints.png)
+
+---
+
+## What Makes AI Engineering Different? 
+
++ FMs are costly to create, develop, deploy, and maintain. Only a few organizations have the capabilities to do so and typical applications are built upon Models-as-a-Service
++ AI Engineering is the process of building applications on top of readily available models
 
 ---
 
