@@ -147,8 +147,8 @@ There are two types of Language Models (LM): Autorregressive LM and Masked LM.
 ## Autorregressive Language Models
 
 + Autorregressive language model: trained to predict the next token in a sequence.
-+ Autorregressive models can continually generate one token after another and are the models of choice for text generation.
-+ In this course, we will discuss this type of models.
++ Autorregressive LMs can continually generate one token after another and are the models of choice for text generation.
+
 
 ---
 
@@ -161,6 +161,52 @@ There are two types of Language Models (LM): Autorregressive LM and Masked LM.
 ![height:200px center](./images/01_yesterday.png)
 
 + Completions are predictions, based on probabilities, and not guaranteed to be correct.
+
+---
+
+## Completion Tasks
+
+Many tasks can be thought as completion: translation, summarization, coding, and solving math problems. 
+
+
+> What’s common to all of these visions is something we call the “sandwich” workflow. This is a three-step process. First, a human has a creative impulse, and gives the AI a prompt. The AI then generates a menu of options. The human then chooses an option, edits it, and adds any touches they like. ([Smith, 2020](https://www.noahpinion.blog/p/generative-ai-autocomplete-for-everything)).
+
+
+
+![h:200px center](./images/01_ai_autocomplete.png)
+
+
+---
+
+## Self-Supervision
+
++ Why language models and not object detection, topic modelling, recommender systems, or any other machine learning task?
++ Any machine learning model requires supervision: the process of training a machine learning model using labelled data.
++ Supervision requires data labelling, and data labelling is expensive and time-consuming.
++ Self-supervision: each input sequence provides both the labels and the contexts the model can use to predict these lables.
++ Because text sequences are everywhere, massive training data sets can be constructed, allowing language models to become LLMs.
+
+---
+
+## Self-Supervision: an example
+
+Input | Output (next token)
+------|--------------------
+<BOS> | I
+<BOS>, I|love
+<BOS>, I, love|street
+<BOS>, I, love, street|food
+<BOS>, I, love, street, food|.
+<BOS>, I, love, street, food, . | <EOS>
+
+---
+
+## From LLM to Foundation Models
+
++ Foundation models: important models which serve as a basis for other applications.
++ Multi-modal model: a model that can work with more than one data modality (text, images, videos, protein structures, and so on.)
++ Self-supervision works for fourndation models, too. For example, labeled images found on the internet.
++ Foundation models transition from task-specific to general-purpose models.
 
 ---
 # Foundation model use cases
@@ -199,4 +245,6 @@ There are two types of Language Models (LM): Autorregressive LM and Masked LM.
 
 ## References
 
+- Devlin, Jacob, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. "Bert: Pre-training of deep bidirectional transformers for language understanding." In Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers), pp. 4171-4186. 2019.
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
+- Smith, Noah and Roon. Generative AI: autocomplete for everything. Dec. 1, 2022 ([URL](https://www.noahpinion.blog/p/generative-ai-autocomplete-for-everything))
