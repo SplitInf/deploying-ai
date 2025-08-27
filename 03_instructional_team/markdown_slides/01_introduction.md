@@ -453,6 +453,12 @@ Dataset engineering| More about feature engineering, especially with tabular dat
 Inference optimization | Important | Even more important 
 
 
+---
+
+## AI Engineering Changes the Order of Decisions
+
+![](./images/01_ai_ml_data_model_product.png)
+Illustration from ["The Rise of the AI Engineer" (Wang, 2023)](https://www.latent.space/p/ai-engineer)
 
 ---
 ## AI Engineering vs Full-Stack Engineering
@@ -465,7 +471,7 @@ Inference optimization | Important | Even more important
 
 ![center](./images/01_ai_full_stack.jpg)
 
-Illustration from ["The Rise of the AI Engineer" (2023)](https://www.latent.space/p/ai-engineer)
+Illustration from ["The Rise of the AI Engineer" (Wang, 2023)](https://www.latent.space/p/ai-engineer)
 
 ---
 
@@ -476,7 +482,8 @@ Illustration from ["The Rise of the AI Engineer" (2023)](https://www.latent.spac
 
 ## References
 
-- Devlin, Jacob, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. "Bert: Pre-training of deep bidirectional transformers for language understanding." In Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers), pp. 4171-4186. 2019.
+- Devlin, Jacob, et al. "Bert: Pre-training of deep bidirectional transformers for language understanding." In Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers), pp. 4171-4186. 2019.
 - Guy, Oliver. From discussion to deployment: 4 key lessons in generative AI. Microsoft Blog, October 23, 2023 ([URL](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/)).
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
 - Smith, Noah and Roon. Generative AI: autocomplete for everything. Dec. 1, 2022 ([URL](https://www.noahpinion.blog/p/generative-ai-autocomplete-for-everything))
+- Wang, Shawn. The Rise of the AI Engineer, 2003 ([URL](https://www.latent.space/p/ai-engineer))
