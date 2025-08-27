@@ -258,7 +258,7 @@ Input | Output (next token)
 
 ## The Role of AI in the Application (1/3)
 
-**Critical or complementary**
+### Critical or complementary
 
 - If an app can work without AI, AI is complementary to the app.
 - The more critical AI is to the app, the more accurate and reliable the AI must be.
@@ -269,7 +269,7 @@ Input | Output (next token)
 
 ## The Role of AI in the Application (2/3)
 
-**Reactive or Proactive**
+### Reactive or Proactive
 
   - Reactive features show their responses to users' requests or actions.
   - Proactive features show responses when there is an opportunity.
@@ -280,7 +280,7 @@ Input | Output (next token)
 
 ## The Role of AI in the Application (3/3)
 
-**Dynamic or Static**
+### Dynamic or Static
 
 - Dynamic features are updated continually with user feedback.
 - Static features are updated periodically.
@@ -334,7 +334,7 @@ AI Deployment Strategies ([Guy, 2023](https://www.microsoft.com/en-us/industry/b
 To ensure a product is not put in front of users before it is ready:
 
 - Quality metrics to measure the quality of the chatbot's responses.
-- Latency metrics including TTFT (Time To First Token), TPOT (time per output token), and total latency.
+- Latency metrics including TTFT (Time To First Token), TPOT (Time Per Output Token), and total latency.
 - Cost metrics: how much it costs per inference request.
 - Other metrics: interpretability and fairness.
 
@@ -373,12 +373,99 @@ To ensure a product is not put in front of users before it is ready:
 + AI Enginnering vs Full-Stack Engineering
 
 ---
-
 ## Three Layers of the AI Stack
 
----
+![](./images/01_ai_stack.png)
 
 ---
+
+## Three Layers of the AI Stack (1/3)
+
+### Application Development
+
+- Provide a model with good prompts and necessary context.
+- Prompt engineering is about getting AI models to express the desirable behaviours from the input alone, without changing model weights.
+- AI Interface: create an interface for end users to interact with the AI application. 
+   - Standalone web, desktop, and mobile apps
+   - Browser extensions
+   - Chatbots integrated to chat apps (Slack, WhatsApp, etc.)
+   - Embedded into products (VSCode, Shopify, Discord, WeChat, etc.)
+- Requires rigorous evaluation. For enterprise use cases, requires mapping to business objectives and business performance metrics.
+
+---
+
+## Three Layers of the AI Stack (2/3)
+
+### Model development
+
+- Tooling for developing models, including frameworks for modeling, training, finetuning, and inference optimization.
+- Dataset engineering: curating, generating, and annotating data needed for training and adapting AI models.
+- Inference optimization means making models faster and cheaper.
+- Requires rigorous evaluation.
+
+---
+
+## Three Layers of the AI Stack (3/3)
+
+### Infrastructure
+
+- Tooling for model serving.
+- Manage data and compute.
+- Monitoring.
+
+
+---
+## AI Engineering vs ML Engineering
+
++ Without foundation models, one must train a model for an application. 
+
+  - With AI engineering, we use a model someone else has trained.
+  - Focus less on modelling and training, and more on model adaptation.
+
++ AI engineering works with models that are costlier.
+
+  - AI models are bigger, consume more compute, and have higher latency than traditional ML.
+  - There is a stronger focus on inference optimisation.
+
++ AI engineering works with models that can produce open-ended outputs.
+
+  - Open-ended outputs give AI the flexibility to be used in more tasks.
+  - Open-ended outputs are harder to evaluate.
+
+---
+
+## AI Engineering is about Adaptation
+
+- AI engineering differs from ML engineering in that it's less about model development and more about adapting and evaluating models.
+- Adaptation techniques fall in two categories:
+
+  + **Prompt-based techniques**: adapt a model without updating the model weights. Ex., prompt engineering.
+  + **Finetuning**: requires updating model weights. We adapt a model by making changes to the model itself.
+
+---
+
+## Responsibilities Change with FMs
+
+Category | Building with traditional ML | Building with FMs
+---------|------------------------------|--------------------
+Modeling and training | ML knowledge is required for training a model from scratch | ML knowledge is nice-to-have, not a must-have
+Dataset engineering| More about feature engineering, especially with tabular data | Less about feature engineering and more about data deduplication, tokenization, context retrieval, and quality control
+Inference optimization | Important | Even more important 
+
+
+
+---
+## AI Engineering vs Full-Stack Engineering
+
++ Focus on application development, espcially on interfaces, brings AI closer to full-stack engineering. 
++ ML engineering is Python-centric. There is an emergence of JavaScript APIs for AI: LangChain.js, Transfomer.js, OpenAI's Node library, Vercel's AI SDK.
+---
+
+## AI Engineering and Application Development
+
+![center](./images/01_ai_full_stack.jpg)
+
+Illustration from ["The Rise of the AI Engineer" (2023)](https://www.latent.space/p/ai-engineer)
 
 ---
 
