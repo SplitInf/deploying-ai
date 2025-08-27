@@ -77,7 +77,8 @@ We will be covering Chapter 1 of AI Engineering, by Chip Huyen.
 
 + AI is different because of scale.
 + Large Language Models (LLMs) and other Foundation Models (FMs) follow a maximalist approach to creating models: more complex models are trained on more data as more compute and storage become available.
-+ FMs are becoming capable of more tasks and therefore they are deployed in more applications and more teams leverage their capabilities.
++ FMs are becoming capable of more tasks and therefore they are deployed in more applications and more teams leverage their capabilities. 
++ FMs make it cheaper to develop AI applications and reduce time to market.
 + FMs require more data, compute resources, and specialized talent.
 
 ---
@@ -208,7 +209,10 @@ Input | Output (next token)
 + Self-supervision works for fourndation models, too. For example, labeled images found on the internet.
 + Foundation models transition from task-specific to general-purpose models.
 
+
 ---
+
+
 # Foundation model use cases
 
 - Coding
@@ -222,6 +226,10 @@ Input | Output (next token)
 
 ---
 
+# Planning an AI Application
+
+---
+
 ## Planning an AI application
 
 - Use Case Evaluation
@@ -231,13 +239,149 @@ Input | Output (next token)
 
 ---
 
+# Evaluating Use Cases
+
+---
+
+## Why are we doing this?
+
++ If you do not do this, competitors with AI can make you obsolete.
+
+  - Common for business involving information processing and aggregation.
+  - Financial analysis, insurance, and data processing.
+
++ If you do not do this, you will miss opportunities to boost profits and productivity.
+
++ You are unsure where AI will fit into your business yet, but you don't want to be left behind.
+
+---
+
+## The Role of AI in the Application (1/3)
+
+**Critical or complementary**
+
+- If an app can work without AI, AI is complementary to the app.
+- The more critical AI is to the app, the more accurate and reliable the AI must be.
+- Example: Face ID would not work without AI-powered facial recognition, but Gmail would work without Smart Compose.
+
+
+---
+
+## The Role of AI in the Application (2/3)
+
+**Reactive or Proactive**
+
+  - Reactive features show their responses to users' requests or actions.
+  - Proactive features show responses when there is an opportunity.
+  - Reactive features are many times expected to happen fast (low latency), proactive responses can be precomputed and shown opportunistically (latency is not as important).
+
+
+---
+
+## The Role of AI in the Application (3/3)
+
+**Dynamic or Static**
+
+- Dynamic features are updated continually with user feedback.
+- Static features are updated periodically.
+- Example: Face ID needs updating as people change appearance.
+
+---
+
+# The Role of Humans in the Application
+
+- Will AI provide background support to humans, make decisions directly, or both?
+- Modes of interaction:
+
+  - AI shows several responses that human agents can reference to write faster responses.
+  - AI responds only to simple requests and routes more complex requests to humans.
+  - AI responds to al requests directly, without human involvement.
+
+- Involving humans in AI's decision-making process is called human-in-the-loop.
+
+---
+
+# The Crawl-Walk-Run Model
+
+[Microsoft (2023)](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/) proposed a framework for adoption of AI automation in products:
+
+1. Crawl: human involvement is mandatory.
+2. Walk: AI can directly interact with internal users.
+3. Run: increased automation, potentially interact with external users.
+
+
+---
+
+![h:500px center](./images/01_ms_deployment_patterns.jpg)
+AI Deployment Strategies ([Guy, 2023](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/))
+
+---
+
+## AI Product Defensibility
+
++ Low barrier to entry is both a blessing and a curse.
+   - An AI product is a layer between the foundation model and the user. 
+   - If the foundation model expands its capabilities, the intermediate layer may no longer be needed. 
++ Three types of competitive advantages: technology, data, and distribution. 
+
+  - Technology and distribution can be easily achieved by large organizations.
+  - Data competitive advantages are more naunced: large organizations can have large current data sets, but may lack data on emerging activities.
+
+---
+
+## Setting Expectations
+
+To ensure a product is not put in front of users before it is ready:
+
+- Quality metrics to measure the quality of the chatbot's responses.
+- Latency metrics including TTFT (Time To First Token), TPOT (time per output token), and total latency.
+- Cost metrics: how much it costs per inference request.
+- Other metrics: interpretability and fairness.
+
+---
+
+## Milestone Planning
+
+- The stronger off-the shelf models, the less work you will have to do.
+- Planning an AI product must account for the last mile challenge: 
+  
+  + Initial success with foundation models can be misleading. 
+  + The effort required to build a product after the initial demo can be significant.
+
+
+---
+
+## Maintainance
+
++ Think about how the product will change over time.
++ Added challenge of rapid progress of AI itself.
++ Constantly evaluate the cost/benefit of each technology investment.
++ Technologies surrounding AI are considered national security issues for many countries, meaning resources for AI can be regulated: compute, talent, and data.
+
+
+---
+
 # The AI engineering Stack
 
-+ Three layers of the AI Stacak
+
+---
+
+## The AI engineering Stack
+
++ Three layers of the AI Stack
 + AI Engineering vs ML Enginering
 + AI Enginnering vs Full-Stack Engineering
 
 ---
+
+## Three Layers of the AI Stack
+
+---
+
+---
+
+---
+
 
 # References
 
@@ -246,5 +390,6 @@ Input | Output (next token)
 ## References
 
 - Devlin, Jacob, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. "Bert: Pre-training of deep bidirectional transformers for language understanding." In Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers), pp. 4171-4186. 2019.
+- Guy, Oliver. From discussion to deployment: 4 key lessons in generative AI. Microsoft Blog, October 23, 2023 ([URL](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/)).
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
 - Smith, Noah and Roon. Generative AI: autocomplete for everything. Dec. 1, 2022 ([URL](https://www.noahpinion.blog/p/generative-ai-autocomplete-for-everything))
