@@ -45,10 +45,6 @@ We will be covering Chapter 1 of AI Engineering, by Chip Huyen.
 
 ---
 
-## Main Points
-
----
-
 
 # What is an AI System?
 
@@ -57,6 +53,8 @@ We will be covering Chapter 1 of AI Engineering, by Chip Huyen.
 
 ## What is an AI System?
 
++ What makes AI different?
++ What makes AI engineering different?
 + Foundation models
     - Language models
     - Self-supervision
