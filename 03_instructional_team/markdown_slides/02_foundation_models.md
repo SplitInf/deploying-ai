@@ -49,18 +49,20 @@ We will be covering Chapter 2 of AI Engineering, by Chip Huyen.
 
 ---
 
-# From machine learning to foundation models via deep learning
+## Two Key Innovations
 
 + Two key innovations have led to the current state of generative models:
 
   - Attention Mechanism
   - Transfer Learning
+![h:200px center](./images/02_transformer_timeline.png)
+<center>(Tunstall et al, 2022)</center>
 
 ---
 
-## Timeline of Key Models
+## Key Models
 
-![h:120px center](./images/02_transformer_timeline.png)
+
 > "In 2017, researchers at Google published a paper that proposed a novel neural network architecture for sequence modelling. Dubbed the Transformer, this architecture outperformed recurrent neural networks (RNNs) on machine translation tasks, both in terms of translation quality and training cost.
 >
 > In parallel, an effective transfer learning method called ULMFiT showed that training long short-term memory (LSTM) networks on a very large and diverse corpus could produce state-of-the-art text classifiers with little labeled data." (Tunstall et al, 2022)
@@ -96,7 +98,7 @@ We will be covering Chapter 2 of AI Engineering, by Chip Huyen.
 
 ![h:350px center](./images/02_encoder_decoder.png)
 
-Illustration of a translation task using RNN (Tunstall et al, 2022)
+<center>Illustration of a translation task using RNN (Tunstall et al, 2022)</center>
 
 
 ---
@@ -113,7 +115,7 @@ There are two issues with seq2seq:
 ## The Attention Mechanism
 
 ![h:350px center](./images/02_attention_mechanism.png)
-Translation task and attention mechanism (Tunstall et al, 2022)
+<center>Translation task and attention mechanism (Tunstall et al, 2022)</center>
 
 ---
 
@@ -126,30 +128,58 @@ Translation task and attention mechanism (Tunstall et al, 2022)
 
 ---
 
-## Self-Attention
+## Seq2seq (RNN-based) vs Transformer
+
+![h:450px center](./images/02_seq2seq_transformer.png)
+<center>(Huyen, 2025)</center>
+
+---
+
+## Self-Attention (1/2)
 
 
 + In the RNN architecture, computations are sequential and cannot be parallelized across the input sequence.
 + Transformer paradigm: remove recurrence and rely entirely on a special form of attention called *self-attention*.
 + Self-attention allows the attention mechanism to operate on all the states in the same layer of the neural network.
-+ A distinguishing characteristic of this type of models is self-supervision:
-
-  - Supervised learning requires labelled data, which may be costly to acquire.
-  - Self-supervised learning takes advantage of natural labels: any text sequence can be used as labelled data.
++ A distinguishing characteristic of this type of models is self-supervision. Self-supervised learning takes advantage of natural labels: any text sequence can be used as labelled data.
 
 ---
+
+## Self-Attention (2/2)
 
 ![h:350px center](./images/02_self-attention.png)
-(Tunstall et al, 2022)
+<center>Self-Attention (Tunstall et al, 2022)</center>
 
 
 ---
 
-## The Attention Mechanism
+## Inference for Transformer-Based Language Models
 
-The attention mechanism relies on two steps:
+Inference for transformer-based language models requires two steps:
 
-+ Prefill: 
++ Prefill 
+
+  - Process input tokens in parallel. 
+  - Create the intermediate state necessary to generate the first output token.
+
++ Decode
+
+  - The model generates one output token at a time.
+
+---
+
+## Three Vectors in The Attention Mechanism
+
++ The attention mechanism uses key, values, and query vectors.
++ **Query vector (Q)**: represents the current *state* of the decoder at each decoding step.
++ Each **key vector (K)** represents a previous token. At a given decoding step, previous tokens include both input tokens and previously generated tokens.
++ Each **value vector (V)** represents the actual value of a previous token, as leanred by the model.
+---
+
+## Attention
+
+![h:430px center](./images/02_attention_mechanism_huyen.png)
+<center>The attention mechanism computes how much attention to give to an input token by performing a dot product between the query vector and its key vector. (Huyen, 2025)</center>
 
 ---
 
