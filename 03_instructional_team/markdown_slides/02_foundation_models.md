@@ -54,20 +54,15 @@ We will be covering Chapter 2 of AI Engineering, by Chip Huyen.
 
 ## Reference Process Flow
 
-![h:550px center](./images/02_foundation_model.png)
+![h:500px center](./images/02_foundation_model.png)
 <center>(Bommasani et al, 2025)</center>
 
 ---
 
-# Data
----
-
-+ Training data
-
-  - Multilingual Models
-  - Domain-Specific Models
+# Training Data
 
 ---
+
 ## Training Data
 
 + An AI model is only as good as the data it was trained on. If there is no Spanish in the training data, the model cannot perform an English-Spanish translation.
@@ -81,22 +76,107 @@ We will be covering Chapter 2 of AI Engineering, by Chip Huyen.
   - [CommonCrawl](https://commoncrawl.org/): non-profit sporadically crawls the internet and in 2022-2023 crawled 2-3 billion pages per month. 
   - [Colossal Clean Crawled Corpus (C4)](https://www.semanticscholar.org/paper/Documenting-the-English-Colossal-Clean-Crawled-Dodge-Sap/40c3327a6ddb0603b6892344509c7f428ab43d81?itid=lk_inline_enhanced-template): Google provides a subset of Common Crawl.
   
-+ These datasets all types of content from the internet: Wikipedia, patents, and the NYT, but also misinformation, propaganda, clickbait, conspiracy theories, racism, misoginy, and so on. [(WP, 2023)](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/)
++ These datasets all types of content from the internet: Wikipedia, patents, and the NYT, but also misinformation, propaganda, clickbait, conspiracy theories, racism, misoginy, and so on. [(Schaul et al, 2023)](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/)
+
+
+---
+
+## A Few Things to Note About Common Crawl (1/2)
+
+
+### Common Crawl is huge, but it is not a "copy of the entire web"
+
+  - English is over-represented in the dataset.
+  - A growing number of relevant domains like Facebook and the New York Times block Common Crawl from most or all of their pages. [(Baack and Mozilla Insights, 2024)](https://www.mozillafoundation.org/en/research/library/generative-ai-training-data/common-crawl/).
+
+
+---
+
+## A Few Things to Note About Common Crawl (1/2)
+
+### Common Crawl's mission does not easily align with needs of trustworthy AI, but devs many times use it without due care
+
+  - Common Crawl produces data for many use cases, including research on hate speach. Its datasets deliberately include problematic content.
+  - Filtered versions of Common Crawl can rely on (simplistic) approaches that are not sufficient to remove problematic content like keeping only top up-voted content from Reddit or to remove content that includes any word in the ["List of Dirty, Naughty, Obscene, and Otherwise Bad Words"](https://github.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words?tab=readme-ov-file)  ([Baack and Mozilla Insights, 2024](https://www.mozillafoundation.org/en/research/library/generative-ai-training-data/common-crawl/)).
 
 
 ---
 
 ## Multilingual Models
 
+![bg right:40%](./images/02_languages_common_crawl.png)
 
++ English accounts for almost half (45%) the data in the Common Crawl dataset, eight times more prevalent than Russion, the second most represented language. 
++ Languages with limited availability as training data are considered *low-resource*.
+
++ Ref.: [(CommonCrawl, 2025)](https://commoncrawl.github.io/cc-crawl-statistics/plots/languages)
 
 ---
 
+
+## GPT-4 Performance on MMLU Benchmark
+
+![contain bg right:50%](./images/02_gpt4_performance_languages.png)
+
++ On the MMLU benchmark, GPT-4 performs better in English. The MMLU benchmakr.
++ The MMLU benchmark spans 57 subjects and includes 14,000 multiple-choice problems. (Huyen, 2025)
+
 ---
 
-# Foundation Models
+## Underrepresented Languages
+
++ Given the dominance of English in the dataset,  general-purpose models work better for English than other languages. Models in languages that are not English:
+
+  - Have poorer performance than in English.
+  - Can behave unexpectedly.
+  - Can perform slower and be more expensive.
++ Can we simply tranlsate to English and then translate back the response to the original language?
+
+  - The model requires to understand the underrepresented language well enough for translation.
+  - Translation can cause information loss.
 
 ---
+
+# Domain-Specific Models
+
+---
+
+## General Purpose Models Perform Many Tasks
+
++ General purpose models like Gemini, GPTs, and Llamas can perform remarkably well in domains that include: coding, law, science, business, sports, and environmental science. 
++ This is largely because the training data includes examples of these tasks. (Huyen, 2025)
+
+![bg fit right:50%](./images/02_distribution_domains.png)
+
+---
+
+## Domain-Specific Models
+
++ Some examples are not available in standard or common data sets. For example:
+
+  - Protein, DNA, and RNA data, which follow specific formats.
+  - Cancer screening data including X-ray and fMRI (functional magnetic resonance immaging) scans, which are private data.
+
++ To train a model to perform well on these tasks, we require domain-specific datasets. For example:
+
+  - DeepMind's AlphaFold model was trained on sequences and 3D structures of 100,000 known proteins.
+  - NVIDIA's BioNeMo focuses on biomolecular data for drug discovery.
+  - Google's Med-PaLM2 combines an LLM with medical data to answer medical queries with higher accuracy.
+
+---
+
+# From NLP to Foundation Models
+
+---
+
+## Reference Process Flow
+
+![h:500px center](./images/02_foundation_model.png)
+<center>(Bommasani et al, 2025)</center>
+
+---
+
+
 
 ## Two Key Innovations
 
@@ -316,13 +396,7 @@ Llama 3-405B | 126| 16,384| 53,248| 128k | 128k
 
 
 
----
 
-+ Modeling
-
-  - Transformer Architecture
-  - Attention Mechanism
-  - Model Size
  
  + Post-Training
    
@@ -347,6 +421,7 @@ Llama 3-405B | 126| 16,384| 53,248| 128k | 128k
 - Bommasani, Rishi, et al. "On the opportunities and risks of foundation models." [arXiv:2108.07258](https://arxiv.org/abs/2108.07258) (2021).
 - Dodge, Jesse et al. “Documenting the English Colossal Clean Crawled Corpus.” [arXiv:2104.08758](https://arxiv.org/abs/2104.08758) (2021).
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
+- Baack, Stefan, and Mozilla Insights. "Training data for the price of a sandwich." Retrieved May 9 (2024): 2024. [(URL)](https://www.mozillafoundation.org/en/research/library/generative-ai-training-data/common-crawl/)
 - Schaul, Kevin, et al. Inside the secret list of websites that make AI like ChatGPT sound smart. Washington Post: April 19, 2023 [(URL)](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/).
 - Olah, Chris. Understanding LSTM Networks. [(colah.github.io, 2015)](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
 - Tunstall, Lewis, Leandro Von Werra, and Thomas Wolf. Natural language processing with transformers. "O'Reilly Media, Inc.", 2022.

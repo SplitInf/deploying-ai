@@ -65,9 +65,17 @@ We will be covering Chapter 1 of AI Engineering, by Chip Huyen.
 
 ## What is an AI System?
 
-+ It is a system based on a large-scale machine learning model.
++ It is a system that uses foundation models to perform tasks.
 + Many principles of productionizing AI applications are similar to those applied in machine learning engineering.
-+ However, the availability of large-scale, readily available models affords new possibilities, and also carries risks and challenges.
++ The main difference between an AI and ML systems is that AI systems adapt a pre-trained, complex model to perform specific tasks, while ML systems train ML models to learn specific tasks.
++ The availability of large-scale, readily available models affords new possibilities, and also carries risks and challenges.
+
+---
+
+## Reference Process Flow
+
+![h:500px center](./images/02_foundation_model.png)
+<center>(Bommasani et al, 2025)</center>
 
 ---
 
@@ -456,6 +464,7 @@ Inference optimization | Important | Even more important
 ## AI Engineering Changes the Order of Decisions
 
 ![](./images/01_ai_ml_data_model_product.png)
+
 Illustration from ["The Rise of the AI Engineer" (Wang, 2023)](https://www.latent.space/p/ai-engineer)
 
 ---
@@ -480,6 +489,7 @@ Illustration from ["The Rise of the AI Engineer" (Wang, 2023)](https://www.laten
 
 ## References
 
+- Bommasani, Rishi, et al. "On the opportunities and risks of foundation models." [arXiv:2108.07258](https://arxiv.org/abs/2108.07258) (2021).
 - Devlin, Jacob, et al. "Bert: Pre-training of deep bidirectional transformers for language understanding." In Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers), pp. 4171-4186. 2019.
 - Guy, Oliver. From discussion to deployment: 4 key lessons in generative AI. Microsoft Blog, October 23, 2023 ([URL](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/)).
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
