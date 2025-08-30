@@ -389,14 +389,44 @@ Llama 3-405B | 126| 16,384| 53,248| 128k | 128k
 
 ---
 
+## Number of Parameters is Not the Only Measure of Scale
+
++ Parameters by themselves can be misleading, for example, in sparse models. Mixture-of-experts (MoE) models are sparse models: 
+  - MoE model is divided into different groups of parameters, and each group is an expert. 
+  - Only a subset of experts is actively used to process each token.
++ As an example, for the Mixtral 8x7Bnly model:
+  - Each token requires 12.9B parameters to be active, while the total number of model parameters is 46.7 B. 
+  - During inference, the cost and speed are the same as 12.9 B parameter model.
+
+---
+
+## Number of training tokens
+
+- Not the same as the number of tokens in training dataset.
+- Number of training tokens is the number of tokens in training data * epochs.
+- An epoch is one training pass over the data.
+- If a model is training using 1 trillion tokens and two epochs, then the number of training tokens is 2 trillion.
+
+---
+
+## Examples of the Number of Training Tokens
+
+![](./images/02_training_tokens.png)
+<center>(Hoffmann et al., 2022)</center>
 
 
+---
 
+## Compute
 
++ Training requires compute, another measure of scale. 
++ A standardised unit for compute is FLOP: floating point operation. It measures the number of floating point operations performed for a certain task.
 
+---
 
-
-
+![](./images/02_compute_train.png)
+<center>Compute used to train machine-learning models (Jones, 2023)</center>
+---
  
  + Post-Training
    
@@ -405,11 +435,23 @@ Llama 3-405B | 126| 16,384| 53,248| 128k | 128k
 
 ---
 
+## Model Size
+
+Three numbers signal a model's scale:
+
++ Number of parameters: proxy for the model's learning capacity.
++ Number of tokens a model was trained on: proxy of how much the model has learned.
++ Number of FLOPs: proxy for training cost.
+
+---
+
 # Sampling, hallucinations, and the probabilistic nature of AI
 
 
-
 ---
+
+
+
 
 
 # References
@@ -422,7 +464,14 @@ Llama 3-405B | 126| 16,384| 53,248| 128k | 128k
 - Dodge, Jesse et al. “Documenting the English Colossal Clean Crawled Corpus.” [arXiv:2104.08758](https://arxiv.org/abs/2104.08758) (2021).
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
 - Baack, Stefan, and Mozilla Insights. "Training data for the price of a sandwich." Retrieved May 9 (2024): 2024. [(URL)](https://www.mozillafoundation.org/en/research/library/generative-ai-training-data/common-crawl/)
-- Schaul, Kevin, et al. Inside the secret list of websites that make AI like ChatGPT sound smart. Washington Post: April 19, 2023 [(URL)](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/).
+- Hoffmann, Jordan, et al. "Training compute-optimal large language models." [arXiv:2203.15556](https://arxiv.org/abs/2203.15556) (2022).
+- Jones, Elliott. "Foundation models in the public sector." Ada Lovelace Institute, October. Accessed August 30,2025: 2023.
+
+---
+
+## References (cont.)
+
 - Olah, Chris. Understanding LSTM Networks. [(colah.github.io, 2015)](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+- Schaul, Kevin, et al. Inside the secret list of websites that make AI like ChatGPT sound smart. Washington Post: April 19, 2023 [(URL)](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/).
 - Tunstall, Lewis, Leandro Von Werra, and Thomas Wolf. Natural language processing with transformers. "O'Reilly Media, Inc.", 2022.
 - Vaswani, Ashish et al. "Attention is all you need." Advances in neural information processing systems 30.  [arXiv:1706.03762](https://arxiv.org/abs/1706.03762)(2017). 
