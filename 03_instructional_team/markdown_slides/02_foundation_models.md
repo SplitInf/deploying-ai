@@ -426,14 +426,33 @@ Llama 3-405B | 126| 16,384| 53,248| 128k | 128k
 
 ![](./images/02_compute_train.png)
 <center>Compute used to train machine-learning models (Jones, 2023)</center>
----
- 
- + Post-Training
-   
-    - Supervisde Finetuning
-    - Preference Finetuning
 
 ---
+ 
+## Compute is Costly
+
+1. Model performance depends on the model size and the dataset size.
+2. Bigger models and bigger datasets require more compute.
+3. Compute costs money and resources.
+
+---
+
+## Chinchilla Scaling Law
+
++ The Chinchilla Paper (Hoffmann et al., 2022), proposes that for compute-optimal training, the number of training tokens needs to be approximately 20 times the model size.
++ Ex., for a 3B parameter model, we would require 60B tokens. 
++ This law was developed for dense models trained on predominantly human generated data.
++ The model size and the number of training tokens should be scaled equally: for every doubling of the model size, the number of training tokens should also be doubled.
+
+---
+
+## IsoFLOP Curves
+
+![h:500px center](./images/02_isoflop.png)
+<center>(Hoffmann et al., 2022)</center>
+
+---
+
 
 ## Model Size
 
@@ -445,13 +464,111 @@ Three numbers signal a model's scale:
 
 ---
 
+
+## Bottlenecks (1/2)
+### Scaling extrapolation
+
++ While the cost for the same model performance is decreasing, the cost for model performance improvements remains high.
++ Model performance depends on hyperparameter optimization.
++ Repeated training is not possible in large scale scenarios.
++ Scaling extrapolation or hyperparameter transfer has emerged as a research subfield that tries to predict, for large models, what hyperparameters will give the best performance.
+
+
+---
+
+## Bottlenecks (2/2)
+
+### Scaling Bottlenecks
+
++ There are two scaling bottlenecks: data and electricity.
++ It is possible that we will run out of internet data in the next few years.
++ Actors are injecting data that they want models to train on.
++ The internet is being populated with AI-generated data.
+
+---
+
+## Post-Training
+
+---
+
+## Post-Training
+   
+- Supervised Finetuning (SFT): Finetune the pre-trained model on high-quality instruction data to optimize for conversations instead of completion.  
+- Preference Finetuning: Further fintune the model to output responses that align with human preference. Methods include:
+
+  + Reinforcement learning for human feedback (RLHF).
+  + Direct Preference Optimization (DPO).
+  + Reinforcement learning for AI feedback (RLAIF).
+
+---
+
+## Pre-training, SFT, and Preference Finetuning
+
+
+![h:500px center](./images/02_pretraining_sft_rlhf.png)
+<center>(Huyen, 2025)</center>
+
+---
+
+## Supervised Finetuning
+
++ A model mimics its training data.
++ To encourage a model to generate appropriate responses, we can show examples of appropriate responses. Such examples follow the format *(prompt, response)* and are called demonstration data.
++ Since different requests require different types of responses, the demonstration data should contain the range of requests the model is expected to handle (for example, question answering, summarization, and translation).
+
+---
+
+## Types of Prompts Used for SFT
+
+![center](./images/02_instructgpt_prompts.png)
+<center>Prompts for SFT in InstructGPT (Ouyang et al, 2022)</center>
+
+---
+
+## Preference Finetuning
+
++ The goal of preference finetuning is to get AI models to behave according to human preference.
++ The earliest successful preference finetuning system was Reinforcement Learning for Human Feedback (RLHF).
++ RLHF has two parts:
+
+  1. Train a reward model that scores the foundation model's output.
+  2. Optimize the foundation model to generate responses for which the reward model will give maximal scores.
+
+---
+
+
+## Training InstructGPT
+
+![h:450px center](./images/02_instructgpt.png)
+<center>(Ouyang et al, 2022)</center>
+
+
+---
+
 # Sampling, hallucinations, and the probabilistic nature of AI
 
 
 ---
 
+# The Shoggoth
+
+---
+
+![h:450px center](./images/02_pretraining_sft_rlhf.png)
+> If you squint [this figure] looks very similar to the meme depicting the monster Shoggoth (Huyen, 2025)
+
+---
 
 
+> “Oh, that’s the Shoggoth,” he explained. “It’s the most important meme in A.I.”
+>... it was only partly a joke, he said, because it also hinted at the anxieties that many researchers and engineers have about the tools they’re building. [(Roose, 2023)](https://www.nytimes.com/2023/05/30/technology/shoggoth-meme-ai.html)
+
+![bg contain right:40%](./images/02_shoggoth.png)
+
+
+
+
+---
 
 
 # References
@@ -472,6 +589,8 @@ Three numbers signal a model's scale:
 ## References (cont.)
 
 - Olah, Chris. Understanding LSTM Networks. [(colah.github.io, 2015)](https://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+- Ouyang, Long, et al. "Training language models to follow instructions with human feedback." Advances in neural information processing systems 35 (2022): 27730-27744. [(URL)](https://arxiv.org/abs/2203.02155)
+- Roose, Kevin. "Why an octopus-like creature has come to symbolize the state of AI." The New York Times (2023). [(URL)](https://www.nytimes.com/2023/05/30/technology/shoggoth-meme-ai.html)
 - Schaul, Kevin, et al. Inside the secret list of websites that make AI like ChatGPT sound smart. Washington Post: April 19, 2023 [(URL)](https://www.washingtonpost.com/technology/interactive/2023/ai-chatbot-learning/).
 - Tunstall, Lewis, Leandro Von Werra, and Thomas Wolf. Natural language processing with transformers. "O'Reilly Media, Inc.", 2022.
 - Vaswani, Ashish et al. "Attention is all you need." Advances in neural information processing systems 30.  [arXiv:1706.03762](https://arxiv.org/abs/1706.03762)(2017). 
