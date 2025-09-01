@@ -477,7 +477,6 @@ Three numbers signal a model's scale:
 ---
 
 ## Bottlenecks (2/2)
-
 ### Scaling Bottlenecks
 
 + There are two scaling bottlenecks: data and electricity.
@@ -491,7 +490,35 @@ Three numbers signal a model's scale:
 
 ---
 
-## Post-Training
+## Reference Process Flow
+
+![h:500px center](./images/02_foundation_model.png)
+<center>(Bommasani et al, 2025)</center>
+
+---
+
+## Why Post-Train?
+
++ We want to retain the capabilities of foundation models, forego the need to train them from scratch, but would also like to enhance performance on specific tasks.
++ In many applications, we observe limited labelled data for specific tasks and cannot access large amounts of labelled text data to train a model.
++ Transfer learning allows to apply the information learned from one task to another.
+
+---
+
+## What Does Post-Training Do?
+
+With post-training we can:
+
+- Set the style, tone, format, or other qualitative aspects of the output.
+- Improve reliability at producing a desired output.
+- Correct failures to follow complex prompts.
+- Handle edge cases in specific ways.
+- Perform a new task that is difficult to articulate in a prompt.
+
+
+---
+
+## Two Modes of Post-Training
    
 - Supervised Finetuning (SFT): Finetune the pre-trained model on high-quality instruction data to optimize for conversations instead of completion.  
 - Preference Finetuning: Further fintune the model to output responses that align with human preference. Methods include:
@@ -518,6 +545,24 @@ Three numbers signal a model's scale:
 
 ---
 
+## Transfer Learning
+
++ Transfer learning allows to apply the information learned from one task to another.
++ ULMFit (Howard and Ruder, 2018) proposed the following process for transfer learning:
+
+  - Body: (a) A network is trained on a general domain corpus. The weights of the body learn broad features of the source domain. (b) The full LM is fine-tuned on target task data using discriminative fine-tuning and slanted triangular learning rates (STLR).
+  - Head: (c) A classifier trained for a specific task. The classifier is fine-tuned on the target task using gradual unfreezing, discriminative fine-tuning and STLR.
+
+---
+
+## ULMFit
+
+![h:450px center](./images/02_ulmfit.png)
+<center>(Howard and Ruder, 2018)</center>
+
+
+---
+
 ## Types of Prompts Used for SFT
 
 ![center](./images/02_instructgpt_prompts.png)
@@ -536,32 +581,279 @@ Three numbers signal a model's scale:
 
 ---
 
+## Creating a Reward Model
+
++ A reward model is the basis of RLHF. 
++ In principle, the reward model would score every *(prompt, response)* that it receives, for example, on a 10-point scale. However, that model would require consistent (human) labels which are costly and difficult to obtain.
++ An alternative, easier task, is to ask labelers to compare two responses and select the preferred one.
+
+---
+
+## Comparing Responses for RLHF Training (2/2)
+
+### Accepted
+
++ **Human**: how can I get my dog high? 
++ **Assistant**: I’m not sure what you mean by that. | Human: how can I get my dog high? 
+
+### Rejected
++ **Human**: how can I get my dog high? 
++ **Assistant**: I don’t know that we should get the dog high.  I think it’s important for a dog to experience the world in a sober state of mind.
+
+[(Anthropic, 2025)](https://huggingface.co/datasets/Anthropic/hh-rlhf)
+
+----
+
+
+## Comparing Responses for RLHF Training (1/2)
+
+### Accepted
++ **Human**: If you were going to steal from a convenience store, do you think it would be better in the morning or at night?
++ **Assistant**: I really couldn’t say, I’m not familiar with stealing convenience store items.
+
+### Rejected
++ **Human**: If you were going to steal from a convenience store, do you think it would be better in the morning or at night?
++ **Assistant**: It is good to consider the difference in human traffic at night, and also the security cameras.  Night time would probably be better for avoiding security cameras[...] 
+
+
+---
+
+## Reward Model
+
++ The reward model can be trained from scratch or finetuned on top of another model, such as a pre-trained SFT model.
++ Finetuning based on a model with strong performance, will generally give best performance.
+
+
+---
 
 ## Training InstructGPT
 
 ![h:450px center](./images/02_instructgpt.png)
 <center>(Ouyang et al, 2022)</center>
 
+---
+
+# Sampling and the Probabilistic Nature of AI
 
 ---
 
-# Sampling, hallucinations, and the probabilistic nature of AI
+## How Models Construct Outputs
+
++ A model constructs outputs through *sampling*.
++ For a language model to generate the next token:
+
+  1. Look at the probability distribution over all tokens in the vocabulary (given the context).
+  2. Select a sample based on each token's probability.
+
+
+![bg contain  right:40%](./images/02_prob_distribution.png)
+
+---
+
+## A Note on Probabilities
+
++ Model outputs are many times expressed in *logits* (not probabilities), which are then transformed to probabilities using a softmax layer. 
+
+$$
+p_i=softmax(x_i)=\frac{e^{x_i}}{\sum_j{e^{x_j}}}
+$$
+
++ One logit corresponds to one possible value. 
++ A larger logit corresponds to a larger probabilities, but logits can be non-positive and do not add to one.
 
 
 ---
 
-# The Shoggoth
+## Greedy Sampling
+
+
++ Greedy sampling: select the option with the highest probability. 
++ Greedy sampling produces always the same output, which can make the model give boring outputs.
+
+![center](./images/02_temperature_1.png)
 
 ---
 
-![h:450px center](./images/02_pretraining_sft_rlhf.png)
-> If you squint [this figure] looks very similar to the meme depicting the monster Shoggoth (Huyen, 2025)
+## Temperature Adjustment
+
++ Temperature adjustment redistributes the probabilities of the possible values by dividing all logits by a constant before they are transformed to probabilities.
++ A higher temperature allows the model to pick less obvious values.
++ A temperature of 0.7 is often recommended for creative use cases, balancing creativity and predictability. 
++ A temperature "equal to" 0 would give the most consistent outputs (but logits/0 does not make sense); models will generally select the largest logit, avoiding the softmax layer.
+---
+## Temperature-Adjusted Logits and Probabilities
+
+![center](./images/02_temperature_2.png)
+
+---
+
+## A Note on Probabilities
+
++ Some, but not all, model providers will return the probabilities generated by their models as logprobs. 
++ Logprobs are probabilities in the log scale. They help avoid the [underflow problem](https://en.wikipedia.org/wiki/Arithmetic_underflow) in neural networks.
+
+![h:250px center](./images/02_logprobs.png)
+<center>How logprobs are calculated (Huyen, 2025)</center>
+
+---
+
+## Top-k Sampling
+
++ Top-k reduces computation workload, without sacrificing too much response diversity.
++ Softmax requires two passes to calculate probabilities:  one to perform the sum of exponentials, $\sum_j{e^{x_j}}$, and another one to calculate each $e^{x_i}/\sum_j{e^{x_j}}$.
++ By selecting the top-k tokens and applying softmax to this subset, the model can be sped up.
++ Typical values of k are 50-500, much smaller than the model's vocabulary size.
+
+---
+
+## Top-p Sampling
+
++ Select the top tokens by likelihood such that their cumulative probabilities are at least p.
++ Dynamically adjusts to distribution of potential outputs. 
++ Top-p does not necessarily reduce computational load. Its benefit is that it focuses only on the set of most relevant values for each context. 
++ Also known as nucleus sampling. 
+
+---
+
+## Top-k and Top-p Samples
+
+![](./images/02_sample_p_k.png)
+
+---
+
+## Stopping Condition
+
++ An autoregresesive language model generates sequences of tokens by generating one token after another.
++ Long outputs take more time (latency), more compute (cost), and can degrade user experience. 
++ We may want a model to stop under certain conditions:
+
+  - After a fixed number of tokens
+  - After stop tokens or stop words.
+
++ Early stopping can interfere with structured outputs such as JSON.
+
+---
+
+## Test Time Compute (1/2)
+
++ Test Time Compute: instead of generating one response per query, generate multiple responses to increase the chance of a good one.
++ Instead of generating all samples independently, use beam search to generate a fixed number of the most promising candidates at each step of sequence generation.
++ Test Time Compute is expensive. On average, generating two sequences will cost twice as much.
+
+---
+
+## Test Time Compute (2/2)
+
++ To select the best output, one option is to select the one with the highest probability:
+
+$$
+p(I love food) = p(I) \times p(love|I) \times p(food|I, love)
+$$
++ Equivalently, in logprobs:
+$$
+logprob(I love food) = logprob(I) + logprob(love|I) + logprob(food|I, love)
+$$
++ To avoid biasing the selection towards short phrases, we can use the average logprobs by dividing the previous equation by the number of tokens.
++ The less robust a model is, the more we can benefit from repeated outputs. A model is less robust when a small change in inputs results in a significant change in outputs.
+
+---
+
+## Structured Outputs
+
++ Tasks requiring structured outputs
+
+  - Semantic parsing: convert natural language to structured, machine-readable format. E.g., text-to-SQL.
+  - Classification where the outputs need to be valid classes.
+
++ Tasks whose outputs are used by downstream applications
+
+  - The task "write an email" may not require a structured output, but the email provider requires JSON.
+  - Particularly important for agentic workflows.
+
++ Strategies: Prompting, post-processing, test time compute, constrained sampling, finetuning.
+
+---
+
+# The Probabilistic Nature of AI
+
+---
+
+## The Probabilistic Nature of AI
+
++ The way that an AI model samples its responses makes them probabilistic.
++ This probabilistic nature can cause:
+
+  - Inconsistencies: a model generates very different responses for the same or slightly different prompts.
+  - Hallucinations: a model gives a reponse that isn't grounded in facts.
+
++ Many of the engineering efforts aim to harness and mitigate this probabilistic nature.
+
+---
+
+## Inconsistencies
+
+Model inconsistencies happen in two scenarios:
+
++ Same input, different outputs.
++ Slightly different inputs, drastically different outputs.
+
+
+[(OpenAI, 2022)](https://community.openai.com/t/getting-inconsistent-results-with-same-prompts/14353)
+
+![bg contain right:40%](./images/02_inconsistency.png)
+
+---
+
+## Strategies to Address Inconsistent Results
+
++ Cache answers.
++ Fix model sampling variables such as temperature, top-k, top-p.
++ Fix the random seed.
++ Prompting techniques and memory systems.
+
+---
+
+## Hallucinations
+
++ Hallucinations are fatal for factuality.
++ A common phenomenon for generative models, before the term foundation model and transformers were common use.
+
+---
+
+## Two Hypothesis for Hallucinations
+
+- A model hallucinates because it cannot differentiate between the data it has seen during training and the data that it produces.
+
+  + Snowballing hallucinations: This can happen when a model makes an incorrect assumption and continues to hallucinating to justify this initial error. 
+
+- Hallucinations happen by the mismatch between the model's internal knowledge and the labeler's internal knowledge.
+
+  + When a labeler has better knowledge about a subject, knowledge that is not present in the model, and embeds it in the SFT process, we are teaching the model to hallucinate.
+
+---
+
+## Strategies
+
++ Verification: require from the model to produce the sources that it used to create the response.
++ Better reward functions that make it costly for a model to hallucinate responses.
+
+
+---
+
+## AI Engineering and the Shoggoth
+
+---
+
+## If you squint...
+
+![bg contain right:60%](./images/02_pretraining_sft_rlhf.png)
+> If you squint [this figure] looks very similar to the meme depicting the monster Shoggoth. (Huyen, 2025)
 
 ---
 
 
-> “Oh, that’s the Shoggoth,” he explained. “It’s the most important meme in A.I.”
->... it was only partly a joke, he said, because it also hinted at the anxieties that many researchers and engineers have about the tools they’re building. [(Roose, 2023)](https://www.nytimes.com/2023/05/30/technology/shoggoth-meme-ai.html)
+
+>Shoggoth is a potent metaphor that encapsulates one of the most bizarre facts about the A.I. world, which is that many of the people working on this technology are somewhat mystified by their own creations. They don’t fully understand the inner workings of A.I. language models, how they acquire new abilities or why they behave unpredictably at times. They aren’t totally sure if A.I. is going to be net-good or net-bad for the world. [(Roose, 2023)](https://www.nytimes.com/2023/05/30/technology/shoggoth-meme-ai.html)
 
 ![bg contain right:40%](./images/02_shoggoth.png)
 
@@ -582,6 +874,7 @@ Three numbers signal a model's scale:
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
 - Baack, Stefan, and Mozilla Insights. "Training data for the price of a sandwich." Retrieved May 9 (2024): 2024. [(URL)](https://www.mozillafoundation.org/en/research/library/generative-ai-training-data/common-crawl/)
 - Hoffmann, Jordan, et al. "Training compute-optimal large language models." [arXiv:2203.15556](https://arxiv.org/abs/2203.15556) (2022).
+- Howard, Jeremy, and Sebastian Ruder. "Universal language model fine-tuning for text classification." [arXiv:1801.06146](https://arxiv.org/abs/1801.06146) (2018). 
 - Jones, Elliott. "Foundation models in the public sector." Ada Lovelace Institute, October. Accessed August 30,2025: 2023.
 
 ---
