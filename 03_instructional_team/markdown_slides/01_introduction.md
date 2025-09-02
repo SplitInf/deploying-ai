@@ -5,7 +5,15 @@ _class: invert
 paginate: true
 ---
 
-# Production: Introduction to ML Systems
+<style>
+img[alt~="center"] {
+  display: block;
+  margin: 0 auto;
+}
+</style>
+
+# Deploying AI 
+## Introduction to AI Systems
 
 ```code
 $ echo "Data Science Institute"
@@ -18,405 +26,462 @@ $ echo "Data Science Institute"
 
 # Agenda
 
-- **1.1 Overview of ML Systems**
-    - When to Use ML
-    - ML in Production
-    - ML vs Traditional Software
-- **1.2 Introduction to ML System Design**
-    - Business and ML Objectives
-    - Requirements of Data-Driven Products
-    - Iterative Process
-    - Framing ML Problems 
+---
+
+## Agenda
+
++ What is an AI System?
++ Use cases and planning an AI application
++ The AI engineering Stack
 
 ---
 
-# Agenda
+## AI Engineering
 
-- **1.3 Project Setup**
-    - Introduction.
-    - Repo File Structure.
-    - Git, authorization, and production pipelines.
-    - VS Code and Git.
-    - Python virtual environments.
-    - Branching Strategies.
-    - Commit Messages.
+We will be covering Chapter 1 of AI Engineering, by Chip Huyen.
+
+
+![height:400px center](./images/00_ai_engineering.jpg)
 
 ---
 
-# Slides
 
-- These notes are based on Chapters 1 and 2 of [*Designing Machine Learning Systems*](https://huyenchip.com/books/), by [Chip Huyen](https://huyenchip.com/).
-
-# Notebooks
-
-- `./01_materials/labs/production_1_setup.ipynb`
-
----
-
-# Code
-
-- `./05_src/logger.py`
-- `./05_src/.env`
-- `./05_src/docker/docker-compose.yml`
-- `./05_src/docker/.env`
-
----
-
-# Machine Learning
-
----
-
-## ML: An Illustration
-
-![w:900](./images/01_learning_process_cat.png)
-
----
-
-## ML: An Illustration
-
-![w:900](./images/01_learning_process_prepayment.png)
-
----
-
-## What is Machine Learning (ML)?
-
-> “A computer program is said to learn from experience *E* with respect to some class of tasks *T* and performance measure *P*, if its performance at tasks in *T*, as measured by *P*, improves with experience *E*.” - (Mitchel, 1997)
-
----
-
-## What is Machine Learning (ML)?
-
-ML is a collection of methods that allow a computer to
-- **Learn autonomously** to perform a task based on a set of examples and without being explicitly programmed to perform the task.
-- **Gain from experience** such that the method performs better in the measure that it observes additional examples.
-- **Generalize results** beyond the data used for training the method.
-
----
-
-## Why Use Machine Learning?
-
-- ML is used when a task is too complex or impractical to program explicitly.
-- When applied successfully, ML will enable
-    - Greater scale: automation.
-    - Better performance.
-    - Doing things that were not possible before.
-
-- ([🔗 Source](https://www.augmentedstartups.com/blog/overcoming-challenges-in-object-detection-accuracy-speed-and-scalability))
-
-![bg right:50% w:500](./images/01_object_detection.jpg)
-
----
-
-## When to Use ML?
-
-"Machine learning is an approach to (1) learn (2) complex patterns from (3) existing data and use these patterns to make (4) predictions on (5) unseen data."
-
-(Huyen, 2022)
-
----
-
-## When to Use ML?
-
-- A business problem is not the same as an ML problem.
-
-    - Generally, a business will be concerned with profit maximization (directly or indirectly): increasing sales, cutting costs, enhancing customer satisfaction, reducing churn, increasing time on the website, etc.
-    - The objective of an ML method is to enhance the performance of the task, given more data.
-    - Optimising ML performance metrics does not automatically translate to optimizing business performance.
-
-- Some of the most popular business applications of ML are in areas where business and ML performance overlap: fraud detection, recommender systems, etc.
-
----
-
-# ML System Design
-
----
-
-## Characteristics of ML Use Cases
-
-- Learn: 
-
-    - The system can learn autonomously.
-    - Given a series of inputs, the system learns how to produce outputs. 
-    - Not every ML model can learn any hypothesis; more complex models will tend to be more flexible.
-
-- Complex patterns
-
-    - There are patterns to learn, and they are complex.
-    - ML solutions are only helpful if there are patterns.
-    - Simple patterns could be learned, but the cost of applying ML may be unreasonable.
-    
----
-
-## Characteristics of ML Use Cases
-
-- Existing data
-
-    - Data is available, or it is possible to collect data.
-    - Out-of-domain predictions may fail because of a lack of training data.
-    - Online (real-time) learning systems could be deployed and trained using production data.
-
-- Predictions
-
-    - ML algorithms will generate predictions. Therefore, the problem to solve should be predictive.
-    - A prediction could be about a future event (forecast) or an event that is difficult to observe (e.g., fraud detection or clustering).
+# What is an AI System?
 
 
 ---
 
-## Characteristics of ML Use Cases (cont.)
+## What is an AI System?
 
-- Unseen data
-    - Unseen data shares patterns with the training data.
-    - The learning method generalizes reasonably well on testing data.
-- It is repetitive
-    - ML algorithms perform better with experience: repetitive tasks afford such experience.
-- The cost of wrong predictions is cheap.
-    - Achieving perfect performance may not be possible.
-    - Human-level performance or better could be achieved.
-
----
-
-## Characteristics of ML Use Cases (cont.)
-
-- It's at scale
-
-    - Upfront costs are involved: infrastructure, staff, DevOps.
-    - Setting up an ML system that caters to many ML models concurrently.
-
-- Patterns are constantly changing
-
-    - Hard-coded solutions can become stale and outdated.
-    - The ML system's environment changes: economics, social behaviour, trends, etc.
-    - Feedback: the ML system informs a company's actions, affecting, in turn, the company's interactions with the external environment.
++ What makes AI different?
++ What makes AI engineering different?
++ Foundation models
+    - Language models
+    - Self-supervision
+    - From language models to foundation models
++ From foundation models to AI engineering
 
 ---
 
-## ML Systems Design
+## What is an AI System?
 
-- ML methods are not ML systems: the learning method needs to be applied to data, assessed, tuned, deployed, governed, and so on.
-- ML system design is a system approach to MLOps, i.e., we will consider the system holistically, including
-    - Business requirements.
-    - Data stack.
-    - Infrastructure.
-    - Deployment.
-    - Monitoring.
++ It is a system that uses foundation models to perform tasks.
++ Many principles of productionizing AI applications are similar to those applied in machine learning engineering.
++ The main difference between an AI and ML systems is that AI systems adapt a pre-trained, complex model to perform specific tasks, while ML systems train ML models to learn specific tasks.
++ The availability of large-scale, readily available models affords new possibilities, and also carries risks and challenges.
 
 ---
 
-## ML Systems Design
+## Reference Process Flow
 
-- MLOps:  a set of tools and best practices for bringing ML into production. 
-- (Sculley, 2015)
-
-![bg right:50% w:500](./images/01_ml_infrastructure.png)
+![h:500px center](./images/02_foundation_model.png)
+<center>(Bommasani et al, 2025)</center>
 
 ---
 
-# How is ML in Production Different?
+## What Makes AI Different? 
+
++ AI is different because of scale.
++ Large Language Models (LLMs) and other Foundation Models (FMs) follow a maximalist approach to creating models: more complex models are trained on more data as more compute and storage become available.
++ FMs are becoming capable of more tasks and therefore they are deployed in more applications and more teams leverage their capabilities. 
++ FMs make it cheaper to develop AI applications and reduce time to market.
++ FMs require more data, compute resources, and specialized talent.
 
 ---
 
-## ML in Research vs Production
-
-|Dimension|Research|Production
-|---------|--------|----------|
-|Requirements|State-of-the-art model performance on benchmark datasets|Different stakeholders have different requirements|
-|Computational priority|Fast training, high throughput|Fast inference, low latency|
-|Data|Static|Constantly shifting|
-|Fairness|Often not a focus|Must be considered|
-|Interpretability|Often not a focus|Must be considered|
+![height:600px center](./images/01_artificial-intelligence-parameter-count.png)
 
 ---
 
-## Business and ML Objectives
-
-- Different stakeholders require different things
-    - ML engineers: increase performance or efficiency of recommender system.
-    - Sales: recommend more profitable options.
-    - Product: reduce latency.
-    - Platform: stability.
-    - Manager: control costs.
+![height:600px center](./images/01_artificial-intelligence-number-training-datapoints.png)
 
 ---
 
-## Business and ML Objectives
+## What Makes AI Engineering Different? 
 
-- Computational priorities
-    - During model development        
-         - Training is the bottleneck.
-         - Throughput, the number of cases processed, should be maximized. 
++ FMs are costly to create, develop, deploy, and maintain. Only a few organizations have the capabilities to do so and typical applications are built upon Models-as-a-Service.
++ AI Engineering is the process of building applications on top of readily available models.
 
 ---
 
-## Business and ML Objectives
+## Language Models
 
-- Computational priorities
-    - In production
-         - Fast inference is desirable.
-         - Latency, the time between when a query is received and when it is addressed, should be minimized.
-         - Latency is usually measured using percentiles of time elapsed (e.g., 99th percentile should be below X ms.)
++ FMs emerged from LLMs which developed from language models.
++ Language models are not new, but have recently developed greatly through *self-supervision*.
++ A language model encodes statistical information about one or more languages. Intuitively, we can use this information to know how likely a word is to appear in a given context.
 
-![bg right:40% w:400](./images/01_latency_throughput.png)
+![height:200px center](./images/01_language_model_illustration.png)
 
 ---
 
-## Business and ML Objectives (cont.)
+## Tokenization
 
-- Data
-    - Data quality.
-    - Historical vs constantly generated data.
-- Fairness
-    - Fair and ethical decision-making is a key requirement.
-    - ML algorithms make predictions based on encodings of past observations: they can perpetuate the biases in the data and more.
++ The basic unit of a language model is a token.
++ Tokens can be a character, a word, or a part of a word, depending on the model.
++ Tokenization: the process of converting text to tokens.
++ The set of all tokens is called *vocabulary*.
 
----
 
-## Business and ML Objectives (cont.)
-
-- Explainability
-    - Trust.
-    - Legal requirements.
-    - Informativeness: besides predictions, we require feature importance and other information about or results.
-    - Transferrability: can learning from a scenario be applied to other scenarios?
+![height:200px center](./images/01_tokenizer_example.png)
 
 ---
 
-# Requirements of ML Systems
+## Why use tokens?
+
+1. Tokens allow the model to break words into meaningful components: "walking" can be broken into "walk" and "ing" 
+2. There are fewer unique tokens than unique words, therefore the vocabulary size is reduced
+3. Tokens help the model process unknown words: "chatgpting" can be broken down to "chatgpt" and "ing"
 
 ---
 
-## Lead Time to Production
+## Types of Language Models
 
-![w:800](./images/01_time_to_production.png)
-(Huyen, 2022)
+
+There are two types of Language Models (LM): Autorregressive LM and Masked LM.
+
+![height:200px center](./images/01_types_of_lm.png)
+
+---
+## Masked Language Models
+
++ Masked language model: predicts missing tokens anywhere in a sequence using only the preceding tokens.
++ Commonly used for non-generative tasks such as steniment analysis, text classification, and tasks that require an understanding of the general context (before and after the prediction), such as code debugging.
++ Example, BERT ([Devlin et al., 2018](https://arxiv.org/abs/1810.04805)).
+
 
 ---
 
-## Designing Data-Intensive Applications
+## Autorregressive Language Models
 
-- Many applications today are data-intensive instead of compute-intensive.
-    - The limit factor is data and not computation.
-    - Concerns: the amount of data, complexity of data, and speed at which it changes.
-- ML Systems tend to be embedded in data-intensive applications.
-- (Kleppmann, 2017)
++ Autorregressive language model: trained to predict the next token in a sequence.
++ Autorregressive LMs can continually generate one token after another and are the models of choice for text generation.
 
-![bg right:50% w:500](./images/01_data_intensive_products.png)
 
 ---
 
-## Fundamental Requirements of ML Systems
+## Completion is a Powerful Task
 
-- **Reliability**: The system should continue to perform the correct function at the desired level of performance, even in the face of adversity.
++ The outputs of language models are open-ended. 
++ Generative model: A model that can generate open-ended outputs.
++ An LM is a completion machine: given a text (prompt), it tries to complete the text.
 
-    - May require reporting uncertainty of results.
-    - Remove "silent failures": the system should alert the users of unexpected conditions.
-    - If all else fails, shut down gracefully (e.g., close connections, log errors, alert downstream processes, etc.) 
+![height:200px center](./images/01_yesterday.png)
 
-- **Scalability** to ensure the possibility of growth
-    - Increase complexity.
-    - Traffic volume or throughput.
-    - Model count.
++ Completions are predictions, based on probabilities, and not guaranteed to be correct.
 
 ---
 
-## Fundamental Requirements of ML Systems
+## Completion Tasks
 
-- **Maintainability** to allow different contributors to work productively on the same system
-    - Maintain existing capacities.
-    - Expand to new use cases.
+Many tasks can be thought as completion: translation, summarization, coding, and solving math problems. 
 
-- **Adaptability** to shifting data distributions and business requirements.
 
-    - The system should allow discovering aspects for performance improvements.
-    - Allow updates without service interruptions.
+> What’s common to all of these visions is something we call the “sandwich” workflow. This is a three-step process. First, a human has a creative impulse, and gives the AI a prompt. The AI then generates a menu of options. The human then chooses an option, edits it, and adds any touches they like. ([Smith, 2020](https://www.noahpinion.blog/p/generative-ai-autocomplete-for-everything)).
 
----
 
-# ML System Design: An Iterative Process
+
+![h:200px center](./images/01_ai_autocomplete.png)
+
 
 ---
 
-## Developing ML Systems
+## Self-Supervision
 
-![](./images/01_developing_ml_systems.png)
-- (Huyen, 2022)
-- CRISP-DM (c. 1999): have things changed that much? ([source](https://www.datascience-pm.com/crisp-dm-2/))
-
----
-
-## Framing ML Problems
-
-- The output of an ML model dictates the type of ML problem.
-- In general, there are two types of ML tasks
-    - Classification.
-    - Regression.    
-
-- A regression model can be framed as a classification model and vice versa.
-    - Regression to classification: apply quantization.
-    - Classification to regression: predict the likelihood of class.
-    
----
-
-## Framing ML Problems
-
-- Classification tasks are
-    - Binary: 
-         - Two classes. 
-         - Simplest classification problems
-    - Multiclass: 
-         - More than two (mutually exclusive) classes.
-         - High cardinality (number of classes) problems will be more complex than low cardinality problems.
-         - High cardinality can be addressed with a hierarchical classification approach: first, classify into large groups, then classify into specific labels.
----
-
-## Framing ML Problems
-
-- Classification tasks are
-    - Multilabel: 
-
-         - An observation can have more than one label.
-         - One approach is to treat the problem as multiclass by creating unique labels out of combinations of individual labels.
-         - Another approach is one-vs-rest, where each label is treated with a different binary classification model.
++ Why language models and not object detection, topic modelling, recommender systems, or any other machine learning task?
++ Any machine learning model requires supervision: the process of training a machine learning model using labelled data.
++ Supervision requires data labelling, and data labelling is expensive and time-consuming.
++ Self-supervision: each input sequence provides both the labels and the contexts the model can use to predict these lables.
++ Because text sequences are everywhere, massive training data sets can be constructed, allowing language models to become LLMs.
 
 ---
 
-## Objective Functions
+## Self-Supervision: an example
 
-- ML requires an objective function to guide the learning process through optimization. 
-- In the context of ML
-    - Regression tasks generally employ error or accuracy metrics: Root Mean Square Error (RMSE) or Mean Absolute Error (MAE).
-    - Classification tasks are generally performed using log loss or cross-entropy.
----
-
-## Objective Functions
-
-- Log or cross-entropy loss is a performance metric that quantifies the difference between predicted and actual probabilities. 
-- In a two-class setting, it is given by
-> $H(p, q)=-\sum_{i=1}^{n}\left(y_i log(\hat{y}_{\theta, i}) +(1-y_{i})log(1-\hat{y}_{\theta, i})\right)$
-
-- Formulation is related to maximum likelihood: minimizing negative log-likelihood is the "same" as minimizing log loss.
+Input | Output (next token)
+------|--------------------
+<BOS> | I
+<BOS>, I|love
+<BOS>, I, love|street
+<BOS>, I, love, street|food
+<BOS>, I, love, street, food|.
+<BOS>, I, love, street, food, . | <EOS>
 
 ---
 
-## Objective Functions
+## From LLM to Foundation Models
 
-- Assume the actual value is 1.
-- If the model is confident and correctly predicted 0.9, then `Loss = -(1*log(0.9)) = 0.10536`
-- If the model is unsure and predicted 0.5, then `Loss = -(1*log(0.5)) = 0.6931`.
-- If the model is confident but incorrectly predicted 0.1, then `Loss = -(1*log(0.1)) = 2.0258`
++ Foundation models: important models which serve as a basis for other applications.
++ Multi-modal model: a model that can work with more than one data modality (text, images, videos, protein structures, and so on.)
++ Self-supervision works for fourndation models, too. For example, labeled images found on the internet.
++ Foundation models transition from task-specific to general-purpose models.
 
----
-
-# Our Reference Architecture
 
 ---
 
-## The Flock Reference Architecture
 
-![](./images/01_flock_ref_arhitecture.png)
-* Agrawal et al (2019)
+# Foundation model use cases
+
+- Coding
+- Image and Video Production
+- Writing
+- Education
+- Conversational Bots
+- Information Aggregation
+- Data Organization
+- Workflow Automation
 
 ---
+
+# Planning an AI Application
+
+---
+
+## Planning an AI application
+
+- Use Case Evaluation
+- Setting Expectations
+- Milestone Planning
+- Maintenance
+
+---
+
+# Evaluating Use Cases
+
+---
+
+## Why are we doing this?
+
++ If you do not do this, competitors with AI can make you obsolete.
+
+  - Common for business involving information processing and aggregation.
+  - Financial analysis, insurance, and data processing.
+
++ If you do not do this, you will miss opportunities to boost profits and productivity.
+
++ You are unsure where AI will fit into your business yet, but you don't want to be left behind.
+
+---
+
+## The Role of AI in the Application (1/3)
+
+### Critical or complementary
+
+- If an app can work without AI, AI is complementary to the app.
+- The more critical AI is to the app, the more accurate and reliable the AI must be.
+- Example: Face ID would not work without AI-powered facial recognition, but Gmail would work without Smart Compose.
+
+
+---
+
+## The Role of AI in the Application (2/3)
+
+### Reactive or Proactive
+
+  - Reactive features show their responses to users' requests or actions.
+  - Proactive features show responses when there is an opportunity.
+  - Reactive features are many times expected to happen fast (low latency), proactive responses can be precomputed and shown opportunistically (latency is not as important).
+
+
+---
+
+## The Role of AI in the Application (3/3)
+
+### Dynamic or Static
+
+- Dynamic features are updated continually with user feedback.
+- Static features are updated periodically.
+- Example: Face ID needs updating as people change appearance.
+
+---
+
+# The Role of Humans in the Application
+
+- Will AI provide background support to humans, make decisions directly, or both?
+- Modes of interaction:
+
+  - AI shows several responses that human agents can reference to write faster responses.
+  - AI responds only to simple requests and routes more complex requests to humans.
+  - AI responds to al requests directly, without human involvement.
+
+- Involving humans in AI's decision-making process is called human-in-the-loop.
+
+---
+
+# The Crawl-Walk-Run Model
+
+[Microsoft (2023)](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/) proposed a framework for adoption of AI automation in products:
+
+1. Crawl: human involvement is mandatory.
+2. Walk: AI can directly interact with internal users.
+3. Run: increased automation, potentially interact with external users.
+
+
+---
+
+![h:500px center](./images/01_ms_deployment_patterns.jpg)
+AI Deployment Strategies ([Guy, 2023](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/))
+
+---
+
+## AI Product Defensibility
+
++ Low barrier to entry is both a blessing and a curse.
+   - An AI product is a layer between the foundation model and the user. 
+   - If the foundation model expands its capabilities, the intermediate layer may no longer be needed. 
++ Three types of competitive advantages: technology, data, and distribution. 
+
+  - Technology and distribution can be easily achieved by large organizations.
+  - Data competitive advantages are more naunced: large organizations can have large current data sets, but may lack data on emerging activities.
+
+---
+
+## Setting Expectations
+
+To ensure a product is not put in front of users before it is ready:
+
+- Quality metrics to measure the quality of the chatbot's responses.
+- Latency metrics including TTFT (Time To First Token), TPOT (Time Per Output Token), and total latency.
+- Cost metrics: how much it costs per inference request.
+- Other metrics: interpretability and fairness.
+
+---
+
+## Milestone Planning
+
+- The stronger off-the shelf models, the less work you will have to do.
+- Planning an AI product must account for the last mile challenge: 
+  
+  + Initial success with foundation models can be misleading. 
+  + The effort required to build a product after the initial demo can be significant.
+
+
+---
+
+## Maintainance
+
++ Think about how the product will change over time.
++ Added challenge of rapid progress of AI itself.
++ Constantly evaluate the cost/benefit of each technology investment.
++ Technologies surrounding AI are considered national security issues for many countries, meaning resources for AI can be regulated: compute, talent, and data.
+
+
+---
+
+# The AI engineering Stack
+
+
+---
+
+## The AI engineering Stack
+
++ Three layers of the AI Stack
++ AI Engineering vs ML Enginering
++ AI Enginnering vs Full-Stack Engineering
+
+---
+## Three Layers of the AI Stack
+
+![](./images/01_ai_stack.png)
+
+---
+
+## Three Layers of the AI Stack (1/3)
+
+### Application Development
+
+- Provide a model with good prompts and necessary context.
+- Prompt engineering is about getting AI models to express the desirable behaviours from the input alone, without changing model weights.
+- AI Interface: create an interface for end users to interact with the AI application. 
+   - Standalone web, desktop, and mobile apps
+   - Browser extensions
+   - Chatbots integrated to chat apps (Slack, WhatsApp, etc.)
+   - Embedded into products (VSCode, Shopify, Discord, WeChat, etc.)
+- Requires rigorous evaluation. For enterprise use cases, requires mapping to business objectives and business performance metrics.
+
+---
+
+## Three Layers of the AI Stack (2/3)
+
+### Model development
+
+- Tooling for developing models, including frameworks for modeling, training, finetuning, and inference optimization.
+- Dataset engineering: curating, generating, and annotating data needed for training and adapting AI models.
+- Inference optimization means making models faster and cheaper.
+- Requires rigorous evaluation.
+
+---
+
+## Three Layers of the AI Stack (3/3)
+
+### Infrastructure
+
+- Tooling for model serving.
+- Manage data and compute.
+- Monitoring.
+
+
+---
+## AI Engineering vs ML Engineering
+
++ Without foundation models, one must train a model for an application. 
+
+  - With AI engineering, we use a model someone else has trained.
+  - Focus less on modelling and training, and more on model adaptation.
+
++ AI engineering works with models that are costlier.
+
+  - AI models are bigger, consume more compute, and have higher latency than traditional ML.
+  - There is a stronger focus on inference optimisation.
+
++ AI engineering works with models that can produce open-ended outputs.
+
+  - Open-ended outputs give AI the flexibility to be used in more tasks.
+  - Open-ended outputs are harder to evaluate.
+
+---
+
+## AI Engineering is about Adaptation
+
+- AI engineering differs from ML engineering in that it's less about model development and more about adapting and evaluating models.
+- Adaptation techniques fall in two categories:
+
+  + **Prompt-based techniques**: adapt a model without updating the model weights. Ex., prompt engineering.
+  + **Finetuning**: requires updating model weights. We adapt a model by making changes to the model itself.
+
+---
+
+## Responsibilities Change with FMs
+
+Category | Building with traditional ML | Building with FMs
+---------|------------------------------|--------------------
+Modeling and training | ML knowledge is required for training a model from scratch | ML knowledge is nice-to-have, not a must-have
+Dataset engineering| More about feature engineering, especially with tabular data | Less about feature engineering and more about data deduplication, tokenization, context retrieval, and quality control
+Inference optimization | Important | Even more important 
+
+
+---
+
+## AI Engineering Changes the Order of Decisions
+
+![](./images/01_ai_ml_data_model_product.png)
+
+Illustration from ["The Rise of the AI Engineer" (Wang, 2023)](https://www.latent.space/p/ai-engineer)
+
+---
+## AI Engineering vs Full-Stack Engineering
+
++ Focus on application development, espcially on interfaces, brings AI closer to full-stack engineering. 
++ ML engineering is Python-centric. There is an emergence of JavaScript APIs for AI: LangChain.js, Transfomer.js, OpenAI's Node library, Vercel's AI SDK.
+---
+
+## AI Engineering and Application Development
+
+![center](./images/01_ai_full_stack.jpg)
+
+Illustration from ["The Rise of the AI Engineer" (Wang, 2023)](https://www.latent.space/p/ai-engineer)
+
+---
+
 
 # References
 
@@ -424,10 +489,9 @@ ML is a collection of methods that allow a computer to
 
 ## References
 
-- Agrawal, A. et al. "Cloudy with high chance of DBMS: A 10-year prediction for Enterprise-Grade ML." arXiv preprint arXiv:1909.00084 (2019).
-- Huyen, Chip. "Designing machine learning systems." O'Reilly Media, Inc.(2022).
-- Kleppmann, M. "Designing data-intensive applications: The big ideas behind reliable, scalable, and maintainable systems." O'Reilly Media, Inc. (2017).
-- Mitchell, Tom M. "Machine learning." (1997).
-- Olah, C. "Conv Nets: A Modular Perspective." (2014) [URL](https://colah.github.io/posts/2014-07-Conv-Nets-Modular/)
-- Sculley, D. et al. "Hidden technical debt in machine learning systems." Advances in neural information processing systems 28 (2015).
-- Wirth, R. and J. Hipp. "CRISP-DM: Towards a standard process model for data mining." Proceedings of the 4th international conference on the practical applications of knowledge discovery and data mining. Vol. 1. (2000).
+- Bommasani, Rishi, et al. "On the opportunities and risks of foundation models." [arXiv:2108.07258](https://arxiv.org/abs/2108.07258) (2021).
+- Devlin, Jacob, et al. "Bert: Pre-training of deep bidirectional transformers for language understanding." In Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers), pp. 4171-4186. 2019.
+- Guy, Oliver. From discussion to deployment: 4 key lessons in generative AI. Microsoft Blog, October 23, 2023 ([URL](https://www.microsoft.com/en-us/industry/blog/retail/2023/10/23/from-discussion-to-deployment-4-key-lessons-in-generative-ai/)).
+- Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
+- Smith, Noah and Roon. Generative AI: autocomplete for everything. Dec. 1, 2022 ([URL](https://www.noahpinion.blog/p/generative-ai-autocomplete-for-everything))
+- Wang, Shawn. The Rise of the AI Engineer, 2003 ([URL](https://www.latent.space/p/ai-engineer))
