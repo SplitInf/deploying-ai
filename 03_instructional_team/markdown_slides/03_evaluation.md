@@ -13,18 +13,15 @@ margin: 0 auto;
 </style>
 
 # Deploying AI 
-## Model and System Evaluation
+## Evaluation Methodology & System Evaluation
 
 ```code
 $ echo "Data Science Institute"
 ```
+
 ---
 
 # Introduction
-
----
-
-# Agenda
 
 ---
 
@@ -35,6 +32,16 @@ $ echo "Data Science Institute"
 + Designing an evaluation pipeline
 
 ---
+
+## AI Engineering
+
+We will be covering Chapters 3 and 4 of AI Engineering, by Chip Huyen.
+
+
+![height:400px center](./images/00_ai_engineering.jpg)
+
+---
+
 
 # Performance Metrics
 
@@ -79,7 +86,7 @@ Read more: [airisk.mit.edu](https://airisk.mit.edu/)
   
   + GLUE (2018) → SuperGLUE (2019)
   + NaturalInstructions (2021) → SuperNaturalInstructions (2022)
-  + MMLU (2020) → MMLU-Pro (2024))
+  + MMLU (2020) → MMLU-Pro (2024)
 
 - Expanded scope: we want to evaluate not just performance on known tasks, but also discovery and performance of new tasks.
 
@@ -153,23 +160,23 @@ Read more: [airisk.mit.edu](https://airisk.mit.edu/)
 ## Perplexity
 
 + Perplexity is the exponential of entropy and cross entropy.
+
 + The perplexity (PPL) of a dataset's distribution is:
 
 $$
 PPL(P)=2^{H(P)}
 $$
 
-+ The perplexity of a language model with learned distribution Q is:
+- The perplexity of a language model with learned distribution Q is:
 
 $$
 PPL(P, Q)=2^{H(P,Q)}
 $$
 
-+ Perplexity measures the amount of uncertainty it has when predicting the next token.
-+ A higher uncertainty means there are more possible options.
++ Perplexity measures the amount of uncertainty a model has when predicting the next token. A higher uncertainty means there are more possible options.
 
 ---
-*
+
 ## Guidance on Perplexity
 
 + What is considered a good value for perplexity depends on the data itself:
@@ -179,6 +186,7 @@ $$
   - The longer the context length, the lower the perplexity.
 
 + Perplexity is a good proxy on a model's capabilities: if a model is bad at predicting the next token, it will tend to bad further downstream.
++ On predictability:
 
   - Perplexity is highest for unpredictable texts, such as: "My dog teaches quantum physics."
   - Perplexity is highest for giberish: "dog cat go eye."
@@ -240,7 +248,7 @@ $$
 
 ---
 
-### Similarity Measurements Against Test Data
+### Exact Evaluation: Similarity Measurements Against Test Data
   
 + The approach is to evaluate AI's outputs against reference data.
 + Reference data is called ground truth or canonical responses.
@@ -266,58 +274,398 @@ $$
 ## Lexical Similarity
 
 + Lexical similarity measure how much two texts overlap.
-+ Simple implementation: count number of tokens in common.
++ A simple implementation: count number of tokens in common.
 
   - Reference: My cats scare the mice.
   - Response A: My cats eat the mice.
-  - Cats and mice fight all the time.
-  - Assuming one word per token, 
+  - Response B: Cats and mice fight all the time.
+  - Assuming one word per token, response A has 80% score (4/5) and response B has 60% (3/5).
+
 --- 
 
-# Introduction to Embeddings
+## Other Forms of Lexical Similarity
 
-- **Embeddings = vector representations of meaning**
-- Capture semantic similarity (cosine distance)
-- Used in: retrieval, clustering, anomaly detection, deduplication
-- Models: BERT, CLIP, Sentence Transformers, OpenAI Embeddings:contentReference[oaicite:5]{index=5}
++ Approximate string matching or *fuzzy* matching, measures simiarlity between two texts by counting how many edits are needed to convert one string to another.
++ Common edit operations are:
 
----
+    - Deletion: brad → bad
+    - Insertion: bad → bard
+    - Substitution: bad → bed
 
-# AI as a Judge
-
-- Use AI to evaluate AI responses
-- Benefits: fast, scalable, no reference data needed
-- Studies show strong correlation with humans (GPT-4 ~85%)
-- Applications: quality, relevance, safety, hallucination checks:contentReference[oaicite:6]{index=6}
++ Also known as edit distance.
 
 ---
 
-# Limitations of AI Judges
+## n-gram similarity
 
-- **Inconsistency**: probabilistic outputs
-- **Criteria ambiguity**: no standardization
-- **Cost & latency**: evaluation doubles API calls
-- **Biases**: self-bias, position bias, verbosity bias
-- Should be combined with **exact or human evaluation**:contentReference[oaicite:7]{index=7}
++ An n-gram is a group of consecutive tokens: 
 
----
+  - A 1-gram (or unigram) is one token, a 2-gram (bigram) contains two tokens, and so on.
+  - The phrase "My cats scare the mice" has four bigrams.
 
-# Comparative Evaluation
-
-- Compare models **side-by-side** instead of absolute scores
-- Popularized by **Anthropic** & **Chatbot Arena**
-- Algorithms: Elo, Bradley–Terry, TrueSkill
-- Benefits: captures human preference, resists saturation
-- Challenges: scalability, quality control, benchmark correlation:contentReference[oaicite:8]{index=8}
++ Similarity metrics can also be calculated between n-grams.
 
 ---
 
-# Evaluation Criteria for Applications
+## Metrics for Lexical Similarity (1/2)
+
+
++ BLEU (Bilingual Evaluation Understudy): measures precision of n-grams in candidate sequence vs reference. Useful in translation.
++ ROUGE (Recall-Oriented Understudy for Gisting Evaluation): family of metrics to measure recall of n-grams in candidate sequence that are found in reference. Useful in summarization.
++ METEOR++ (Metric for Evaluation of Translation with Explicit ORdering): addresses the limitations of BLEU and ROUGE by creating a more sophisticated alignment between candidate and reference sentences. Useful in paraphrase evaluation.
++ TER (Translation Error Rate): measures the number of editing operations required to change a machine-translated sentence into a reference translation. 
++ CIDEr (Consensus-based Image Description Evaluation): a metric for evaluating image captions.
+
+---
+
+## Metrics for Lexical Similarity (2/2)
+
+- These metrics differ by the way they measure overlapping sequences.
+- Before FM: BLEU, ROUGUE and related metrics were commonly used (e.g., translation tasks).
+- Fewer benchmarks use lexical similarity since FM.
+
+---
+
+## Background: Introduction to Embeddings
+
+- An embedding is a numerical representation that aims to capture the meaning of the original data. 
+- An embedding is a vector: "the cat sits on a mat" could be represented as [0.11, 0.02, 0.54]. Actual vector lengths range between 100 and 10,000 elements.
+- Models trained especially to produce embeddings: [BERT](https://tinkerd.net/blog/machine-learning/bert-embeddings/), [CLIP](https://openai.com/index/clip/) (Contrastive Language-Image Pre-training), Sentence Transformers, and [OpenAI Embeddings](https://platform.openai.com/docs/guides/embeddings/embedding-models).
+- Embeddings are used in retrieval, clustering, anomaly detection, and deduplication, among other tasks.
+- Embeddings can be computed for text, images, audio, etc.
+
+---
+
+## Semantic Similarity
+
++ Semantic similarity measures similarity of meaning.
++ It requires transforming a text into embeddings.
++ The similarity between two embeddings can be computed using metrics such as [cosine similarity](https://tinkerd.net/blog/machine-learning/bert-embeddings/#comparing-embeddings). 
++ If A and B are the embeddings of the generated and reference responses, respectively, their cosine similarity is given by
+
+$$
+\frac{A \cdot B}{||A||||B||}
+$$
+
++ The reliability of semantic simiarlity depends on the quaity, latency and cost of the embedding algorithm.
++ Semantic similarity is sometimes called embedding similarity.
+
+---
+
+
+## AI as a Judge
+
+- Human evaluation is an option for open-ended responses. Can AI be used as a judge? 
+- Benefits: fast, scalable, no reference data needed.
+- Studies show strong correlation with humans (GPT-4 ~85%).
+- Applications: quality, relevance, safety, and hallucination checks.
+
+---
+
+## How to Use AI as a Judge (1/3)
+
+Evaluate the quality of a response by itself, given the original question.
+
+```
+Given the following question and answer, evaluate how good the answer is for the question. Use the score from 1 to 5.
+- 1 means very bad.
+- 5 means very good.
+ Question: [QUESTION]
+ Answer: [ANSWER]
+ Score:
+```
+
+---
+
+## How to Use AI as a Judge (2/3)
+
+Compare a generated response to a reference response; assess whether it is the same. 
+
+```
+Given the following question, reference answer, and generated answer, evaluate whether this generated answer is the same as the reference answer. 
+Output True or False.
+ Question: [QUESTION]
+ Reference answer: [REFERENCE ANSWER]
+ Generated answer: [GENERATED ANSWER]
+```
+
+This is an alternative to human-design similarity measures.
+
+---
+
+## How to Use AI as a Judge (3/3)
+
+Compare two generated responses and determine which one is better or predict which one users will likely prefer.
+
+```
+ Given the following question and two answers, evaluate which answer is better. Output A or B.
+ Question: [QUESTION]
+ A: [FIRST ANSWER]
+ B: [SECOND ANSWER]
+ The better answer is:”
+```
+This is helpful for generating preference data for post-training alignment, test-time compute, and ranking models using comparative evaluation.
+
+---
+
+## Examples of Built-In AI as a Judge Criteria
+
+AI Tools | Built-in Criteria
+---------|------------------
+Azure AI Studio | Groundedness, relevance, coherence, fluency, similarity
+MLflow.metrics | Faithfulness, relevance
+LangChain Criteria Evaluation | Conciseness, relevance, correctness, coherence, harmfulness, maliciousness, helpfulness, controversiality, misogyny, insensitivity, criminality
+Ragas | Faithfulness, answer relevance
+
+It is critical to remember that criteria definitions are not standardised.
+
+---
+
+## Prompts for AI-as-a-Judge
+
+1. The task the model is to perform: evaluate the relevance of an answer to a question.
+2. The criteria the model should follow to evaluate: "Your primary focus should be..." The more detailed instruction, the better.
+3. The scoring system:
+
+    - Classification: good/bad, true/false, relevant/irrelevant/neutral.
+    - Discrete numerical values: 1 to 5.
+    - Continuous numerical values: between 0 and 1.
+
+4. Consider using examples.
+
+---
+
+## Process Diagram of AI as a Judge 
+
+![h:450px center](./images/03_ai_judge.png)
+<center>(Huyen, 2025)</center>
+
+---
+
+## Limitations of AI Judges (1/2)
+
+- Inconsistency: for an evaluation method to be trustworthy, it needs to be consistent.
+
+  - AI judges are AI and, therefore, probabilistic in nature.
+  - Evaluation examples in the prompt can increase consistency.
+
+- Criteria ambiguity: AI as a judge metrics are not standardised/
+
+  - Increases risk of misinterpretation or misuse.
+  - An application evolves over time, but the way it's evaluated should be fixed. 
+  
+---
+## Limitations of AI Judges (2/2)
+
+- Cost and latency: using powerful models to evaluate responses can be expensive and can add latency. 
+
+  - Use a weaker model for evaluation.
+  - Apply spot-checks.
+
++ Biases: 
+
+  - Self-bias: model favours own responses.
+  - Position bias: model favours first answer in a pairwise comparison or the first in a list of options. 
+  - Verbosity bias: model favours lengthier answers, regardless of quality.
++ AI judges should be combined with exact or human evaluation.
+
+---
+
+## Comparative Evaluation
+
+- Compare models side-by-side instead of absolute scores.
+- Popularized by Anthropic & Chatbot Arena.
+- Algorithms: Elo, Bradley–Terry, TrueSkill.
+- Benefits: captures human preference, resists saturation.
+- Challenges: scalability, quality control, benchmark correlation.
+
+---
+
+# Evaluating AI Systems
+
+---
+
+## Evaluation-Driven Development
+
++ In AI Engineering evaluation-driven development means defining evaluation criteria before building.
++ An AI application should start with a list of evaluation criteria specific to the application.
++ Criteria fall within these categories:
+
+  - Domain-specific capability: coding, math, legal knowledge.
+  - Generation capability: fluency, coherence, factual consistency, safety.
+  - Instruction-following: formats, constraints, style.
+  - Cost & latency: time per token, price per output.
+
+
+---
+
+## Domain-Specific Capabilities (1/3)
+
++ A model's domain-specific capabilities are constrained by its configuration (such as model architecture and size) and training data.
++ Evaluate domain-specific capabilities using public or private domain-specific benchmarks.
++ Commonly assessed using exact evaluation.
++ Coding tasks: 
+  - Evaluated using functional correctness.
+  - Code readability: subjective evaluation using AI judges.
++ Efficiency measured by runtime or memory usage.
+
+---
+
+## Domain-Specific Capabilities (2/3)
+
++ Non-coding domain tasks: evaluated with close-ended tasks, such as multiple choice questions (MCQ).
+  - Reduces inconsistent statements.
+  - Easier to verify and reproduce.
+  - Most public benchmarks follow this approach: +75% of [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness?tab=readme-ov-file).
++ MCQ might have one or more correct answers.
+  - Use a point system when multiple correct options exist.
+  - Classification is a special case where the choices are the same for all questions.
+
+---
+
+## Domain-Specific Capabilities (2/3)
+
++ MCQs disadvantages:
+  - Sensitive to small changes in how the questions and options are presented.
++ Despite popularity, it is not yet clear if this is the best approach for FM evaluation. 
+  - MCQs test ability to select good answers, not to generate good answers. 
+  - MCQs are well-stuited for evaluating knowledge (does this model *know* X?) and reasoning (can this model *infer* Y from X?). 
+  - MCQs do not test summarisation, translation or essay writing.
+
+---
+
+## Generation Capability
+
++ Metrics from Natural Language Generation:
+
+  - Fluency: measures whether text is grammatically correct and natural-sounding.
+  - Coherence: measures how well-structured the whole text is.
+  - Can be evaluated with AI as a judge or using perplexity.
+
++ The most pressing issues are hallucinations and safety.  
+
+---
+
+## Factual Consistency (1/2)
+
++ Can be verified against explicitly provided facts (context) or against open knowledge:
++ **Local factual consistency**: the output is evaluated against context. 
+  - Output is factually consistent if it is supported by the context.
+  - Important for tasks with limited scopes: summarisation, customer support chatbots, and business analysis.
++ **Global factual consistency**: output is evaluated against open knowledge.
+  - Important for tasks with broad scopes such as general chatbots, fact-checking, market research, and so on.
+
+---
+
+## Factual Consistency (1/4)
+
+### Facts
+
++ Factual consistency is much easier to verify against explicit facts.
++ If no context given, then:
+
+  1. Search for reliable resources.
+  2. Derive facts.
+  3. Validate the statement against facts.
+
++ The hardest part of factual consistency verfication is determining what the facts are.
+
+---
+
+## Factual Consistency: Example Prompt
+
+```
+Factual Consistency: Is the summary untruthful or contains misleading facts that are not supported by the source text?
+ Source Text:
+ {Document}
+ Summary:
+ {Summary}
+ Does the summary contain factual inconsistency?
+ Answer:
+```
+
+---
+
+## Factual Consistency (2/4)
+
+### Self-verification
+
++  SelfCheckGPT: Given a response R, generate N new responses and measure how consistent R is with respect to N new responses. 
+  - If R disagree with majority of N or all responses disagree, then R is hallucination.
+  - Approach works, but can be expensive.
+
+---
+
+## Factual Consistency (3/4)
+
+### Knowledge-augmented verification
+
+SAFE, Search-Augmented Factuality Evaluator (Google, DeepMind): 
+
+  1. Use an AI model to decompose into individual statements.
+  2. Make each statement self-contained.
+  3. For each statement, propose queries to send to Google.
+  4. Use AI to determine whether the statement is consistent with research results.
+
+---
+
+## Search-Augmented Factuality Evaluator
+
+![h:450px center](./images/03_safe.png)
+<center>(Wei et al, 2024)</center>
+
+---
+
+## Factual Consisntency (4/4)
+### Entailments
+
++ Factual consistency can be framed as *textual entailment*, an NLP task.
++ Textual entailment establishes the relationship between two statements.
+
+Relationship | Definition | Factual Consistency
+-------------|------------|--------------------
+Entailment | The hypothesis can be inferred from the premise. | Factually consistent.
+Contradiction | The hypothesis contradicts the premise. | Factually inconsistent.
+Neutral | The premise neither entails nor contradicts the hypothesis. | Cannot be determined.
+
+
+---
+
+## Safety
+
+Unsafe content includes:
+
++ Inappropriate language, including profanity and explicit content.
++ Harmful recommendations and tutorials, including encouraging self-destructive behaviour.
++ Hate speech, including racist, sexist, homophobic speech, and other discriminatory behaviours.
++ Violence, including threats and graphic detail.
++ Stereotypes, such as using female names for nurses or male names for CEOs.
++ Biases against political positions or religion.
+
+---
+
+## Political Biases in LLMs
+
+![h:450px center](./images/03_politics.png)
+<center>(Feng et al, 2023)</center>
+
+---
+
+## Addressing Harmful Behaviour
+
++ AI judges implemented with general purpose models.
++ Models developed for to detect human harmful behaviour can also be applied.
+
+  - Usually, smaller, faster and less expensive than AI judges.
+  - Example: [Facebook hate speech detection](https://ai.meta.com/blog/how-facebook-uses-super-efficient-ai-models-to-detect-hate-speech/).
+---
+
+## Evaluation Criteria for Applications
 
 - **Domain-specific capability** (coding, math, legal knowledge)
 - **Generation capability** (fluency, coherence, factual consistency, safety)
 - **Instruction-following** (formats, constraints, style)
-- **Cost & latency** (time per token, price per output):contentReference[oaicite:9]{index=9}
+- **Cost & latency** (time per token, price per output)
 
 ---
 
@@ -326,7 +674,7 @@ $$
 - **Local vs Global factual consistency**
 - Methods: AI judges, SelfCheckGPT, SAFE, entailment models
 - Safety risks: toxicity, bias, violence, harmful advice
-- Benchmarks: TruthfulQA, RealToxicityPrompts, BOLD:contentReference[oaicite:10]{index=10}
+- Benchmarks: TruthfulQA, RealToxicityPrompts, BOLD
 
 ---
 
@@ -336,7 +684,7 @@ $$
 - Benchmarks:
 - **IFEval** (format, constraints, JSON, keywords)
 - **INFOBench** (content, style, linguistic rules)
-- Roleplaying = common real-world use case:contentReference[oaicite:11]{index=11}
+- Roleplaying = common real-world use case
 
 ---
 
@@ -344,8 +692,46 @@ $$
 
 - Metrics: time-to-first-token, time per token, total query time
 - Cost drivers: input/output tokens (APIs), compute (self-hosted)
-- Trade-offs: performance vs cost vs latency:contentReference[oaicite:12]{index=12}
+- Trade-offs: performance vs cost vs latency
 
+---
+
+
+# Model Selection Workflow
+
+1. Filter by **hard attributes** (license, privacy, architecture)
+2. Narrow with **benchmarks & leaderboards**
+3. Run **custom evaluation pipeline**
+4. **Monitor in production** for failures & drift
+
+---
+
+# Open Source vs Model APIs
+
+- **Model APIs**
+- Pros: best models, scaling, guardrails, features (function calling)
+- Cons: cost, vendor lock-in, limited control/transparency
+- **Self-Hosting**
+- Pros: control, transparency, customization, on-device
+- Cons: heavy engineering effort, usually weaker models
+
+---
+
+# Public Benchmarks & Leaderboards
+
+- Thousands exist (BIG-bench, MMLU, GSM-8K, TruthfulQA)
+- Leaderboards (Hugging Face, HELM) aggregate results
+- Issues: saturation, contamination, benchmark correlation
+- Best use: filter *bad models*, not pick the *best model*
+
+---
+
+# Data Contamination
+
+- Models often trained on public benchmarks → inflated scores
+- Detection: n-gram overlap, low perplexity
+- Handling: disclose contamination, evaluate on clean subsets
+- Lesson: don’t fully trust public benchmark scores
 
 
 
@@ -354,6 +740,25 @@ $$
 
 
 # Designing an Evaluation Pipeline
+
+---
+
+# Designing an Evaluation Pipeline
+
+1. **Evaluate all components** (per task, per turn, per step)
+2. **Create clear guidelines** & rubrics tied to business metrics
+3. **Define evaluation methods & datasets** (exact, subjective, human-in-loop)
+4. **Validate the pipeline** (reliability, bootstrap resampling, significance tests)
+
+---
+
+# Key Takeaways
+
+- Evaluation is **harder than ever** but critical for AI safety & adoption
+- Mix of methods: **functional correctness + similarity + AI judges + human checks**
+- Comparative evaluation rising as models surpass human skill
+- Custom pipelines > public benchmarks for real-world apps
+- Evaluation is the **biggest bottleneck to AI adoption**
 
 ---
 
@@ -365,70 +770,15 @@ $$
 
 - Chang, Yupeng et al. "A survey on evaluation of large language models." ACM transactions on intelligent systems and technology 15, no. 3 (2024): 1-45. ([arXiv:2307.03109](https://arxiv.org/abs/2307.03109))
 - Chen, Mark et al. (2021). "Evaluating large language models trained on code." [arXiv:2107.03374](https://arxiv.org/abs/2107.03374).
+- Feng, Shangbin et al. "From pretraining data to language models to downstream tasks: Tracking the trails of political biases leading to unfair NLP models." [arXiv:2305.08283](https://arxiv.org/abs/2305.08283) (2023).
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
 - Slattery, P. et al (2024). The AI Risk Repository: A Comprehensive Meta-Review, Database, and Taxonomy of Risks from Artificial Intelligence. [arxiv:2408.12622](https://arxiv.org/pdf/2408.12622)
+- Wei, Jerry et al. "Long-form factuality in large language models." Advances in Neural Information Processing Systems 37 (2024): 80756-80827. [arXiv:2403.18802](https://arxiv.org/abs/2403.18802)
 
 
-
-# AI Engineering
-## Evaluation Methodology & System Evaluation
 
 ---
 
 
 
 
-# Model Selection Workflow
-
-1. Filter by **hard attributes** (license, privacy, architecture)
-2. Narrow with **benchmarks & leaderboards**
-3. Run **custom evaluation pipeline**
-4. **Monitor in production** for failures & drift:contentReference[oaicite:13]{index=13}
-
----
-
-# Open Source vs Model APIs
-
-- **Model APIs**
-- Pros: best models, scaling, guardrails, features (function calling)
-- Cons: cost, vendor lock-in, limited control/transparency
-- **Self-Hosting**
-- Pros: control, transparency, customization, on-device
-- Cons: heavy engineering effort, usually weaker models:contentReference[oaicite:14]{index=14}
-
----
-
-# Public Benchmarks & Leaderboards
-
-- Thousands exist (BIG-bench, MMLU, GSM-8K, TruthfulQA)
-- Leaderboards (Hugging Face, HELM) aggregate results
-- Issues: saturation, contamination, benchmark correlation
-- Best use: filter *bad models*, not pick the *best model*:contentReference[oaicite:15]{index=15}
-
----
-
-# Data Contamination
-
-- Models often trained on public benchmarks → inflated scores
-- Detection: n-gram overlap, low perplexity
-- Handling: disclose contamination, evaluate on clean subsets
-- Lesson: don’t fully trust public benchmark scores:contentReference[oaicite:16]{index=16}
-
----
-
-# Designing an Evaluation Pipeline
-
-1. **Evaluate all components** (per task, per turn, per step)
-2. **Create clear guidelines** & rubrics tied to business metrics
-3. **Define evaluation methods & datasets** (exact, subjective, human-in-loop)
-4. **Validate the pipeline** (reliability, bootstrap resampling, significance tests):contentReference[oaicite:17]{index=17}
-
----
-
-# Key Takeaways
-
-- Evaluation is **harder than ever** but critical for AI safety & adoption
-- Mix of methods: **functional correctness + similarity + AI judges + human checks**
-- Comparative evaluation rising as models surpass human skill
-- Custom pipelines > public benchmarks for real-world apps
-- Evaluation is the **biggest bottleneck to AI adoption**:contentReference[oaicite:18]{index=18}
