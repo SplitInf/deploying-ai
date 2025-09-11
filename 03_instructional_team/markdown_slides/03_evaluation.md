@@ -523,7 +523,7 @@ It is critical to remember that criteria definitions are not standardised.
 
 ---
 
-## Domain-Specific Capabilities (2/3)
+## Domain-Specific Capabilities (3/3)
 
 + MCQs disadvantages:
   - Sensitive to small changes in how the questions and options are presented.
@@ -546,7 +546,7 @@ It is critical to remember that criteria definitions are not standardised.
 
 ---
 
-## Factual Consistency (1/2)
+## Factual Consistency (1/5)
 
 + Can be verified against explicitly provided facts (context) or against open knowledge:
 + **Local factual consistency**: the output is evaluated against context. 
@@ -557,7 +557,7 @@ It is critical to remember that criteria definitions are not standardised.
 
 ---
 
-## Factual Consistency (1/4)
+## Factual Consistency (2/5)
 
 ### Facts
 
@@ -586,7 +586,7 @@ Factual Consistency: Is the summary untruthful or contains misleading facts that
 
 ---
 
-## Factual Consistency (2/4)
+## Factual Consistency (3/5)
 
 ### Self-verification
 
@@ -596,7 +596,7 @@ Factual Consistency: Is the summary untruthful or contains misleading facts that
 
 ---
 
-## Factual Consistency (3/4)
+## Factual Consistency (4/5)
 
 ### Knowledge-augmented verification
 
@@ -616,7 +616,8 @@ SAFE, Search-Augmented Factuality Evaluator (Google, DeepMind):
 
 ---
 
-## Factual Consisntency (4/4)
+## Factual Consisntency (5/5)
+
 ### Entailments
 
 + Factual consistency can be framed as *textual entailment*, an NLP task.
@@ -644,6 +645,14 @@ Unsafe content includes:
 
 ---
 
+## Unsafe Outputs and Biases
+
++ Unsafe outputs can cause reputational, financial, or societal harm.
++ Political bias is common on the internet; models differ in leanings.  
+
+
+---
+
 ## Political Biases in LLMs
 
 ![h:450px center](./images/03_politics.png)
@@ -655,83 +664,282 @@ Unsafe content includes:
 
 + AI judges implemented with general purpose models.
 + Models developed for to detect human harmful behaviour can also be applied.
++ Smaller toxicity detection models are efficient and cost-effective.
+- Example: [Facebook hate speech detection](https://ai.meta.com/blog/how-facebook-uses-super-efficient-ai-models-to-detect-hate-speech/) and [Perspective API](https://www.perspectiveapi.com/).
 
-  - Usually, smaller, faster and less expensive than AI judges.
-  - Example: [Facebook hate speech detection](https://ai.meta.com/blog/how-facebook-uses-super-efficient-ai-models-to-detect-hate-speech/).
----
-
-## Evaluation Criteria for Applications
-
-- **Domain-specific capability** (coding, math, legal knowledge)
-- **Generation capability** (fluency, coherence, factual consistency, safety)
-- **Instruction-following** (formats, constraints, style)
-- **Cost & latency** (time per token, price per output)
-
----
-
-# Factual Consistency & Safety
-
-- **Local vs Global factual consistency**
-- Methods: AI judges, SelfCheckGPT, SAFE, entailment models
-- Safety risks: toxicity, bias, violence, harmful advice
-- Benchmarks: TruthfulQA, RealToxicityPrompts, BOLD
-
----
-
-# Instruction-Following
-
-- Core capability for foundation models
-- Benchmarks:
-- **IFEval** (format, constraints, JSON, keywords)
-- **INFOBench** (content, style, linguistic rules)
-- Roleplaying = common real-world use case
-
----
-
-# Cost and Latency
-
-- Metrics: time-to-first-token, time per token, total query time
-- Cost drivers: input/output tokens (APIs), compute (self-hosted)
-- Trade-offs: performance vs cost vs latency
+![bg contain right:50%](./images/03_linformer_met.jpg)
 
 ---
 
 
-# Model Selection Workflow
+## Safety Benchmarks
 
-1. Filter by **hard attributes** (license, privacy, architecture)
-2. Narrow with **benchmarks & leaderboards**
-3. Run **custom evaluation pipeline**
-4. **Monitor in production** for failures & drift
+- [TruthfulQA (Lin et al, 2021)](https://arxiv.org/abs/2109.07958) is a benchmark to measure whether a language model is truthful in generating answers to questions spanning 38 categories (health, law, politics, and so on). To perform well, models must avoid generating false answers learned from imitating human texts.
+- [RealToxicityPrompts](https://huggingface.co/datasets/allenai/real-toxicity-prompts) tests how models respond to toxic inputs.  
+- [Bias in Open-ended Language Generation Dataset (BOLD)](https://github.com/amazon-science/bold) is a dataset to evaluate fairness in open-ended language generation in English language.
+
+
+---
+# Instruction-Following Capability
 
 ---
 
-# Open Source vs Model APIs
+## Importance
 
-- **Model APIs**
-- Pros: best models, scaling, guardrails, features (function calling)
-- Cons: cost, vendor lock-in, limited control/transparency
-- **Self-Hosting**
-- Pros: control, transparency, customization, on-device
-- Cons: heavy engineering effort, usually weaker models
+- Models must follow instructions exactly, not approximately.
+- Failure to follow instructions breaks downstream applications.
+- Example: Sentiment classification requires NEUTRAL, POSITIVE, or NEGATIVE outputs.
 
 ---
 
-# Public Benchmarks & Leaderboards
+## IFEval Benchmark
 
-- Thousands exist (BIG-bench, MMLU, GSM-8K, TruthfulQA)
-- Leaderboards (Hugging Face, HELM) aggregate results
-- Issues: saturation, contamination, benchmark correlation
-- Best use: filter *bad models*, not pick the *best model*
+- [IFEval (Zhou et al, 2023)](https://arxiv.org/abs/2311.07911) measures adherence to automatically verifiable instructions.
+- Tests include constraints on keywords, length, format, and JSON output.
+- Scores are calculated as the fraction of correctly followed instructions.
+
+![h:250px center](./images/03_ifeval.png)
+<center>(Zhou et al, 2023)</center>
 
 ---
 
-# Data Contamination
+## IFEval Verifiable Instructions
 
-- Models often trained on public benchmarks → inflated scores
-- Detection: n-gram overlap, low perplexity
-- Handling: disclose contamination, evaluate on clean subsets
-- Lesson: don’t fully trust public benchmark scores
+![h:470px center](./images/03_ifeval_2.png)
+<center>(Zhou et al, 2023)</center>
+
+---
+
+## INFOBench Benchmark
+
+- [INFOBench (Qin et al, 2024)](https://arxiv.org/abs/2401.03601) extends instruction-following evaluation beyond format.
+- Tests include:
+  + Style, for example, "use a respectful tone". 
+  + Linguistic guidelines, like "use Victorian English".
+  + Content restrictions, such as "discuss only climate change".
+- Verification may require human or AI judgment, not automation.
+
+---
+
+![h:470px center](./images/03_infobench.png)
+<center>(Qin et al, 2024)</center>
+
+---
+
+## Custom Benchmarks
+
+- Developers should create their own instruction benchmarks.
+- Application-specific benchmarks ensure reliable evaluation.
+- Example: If YAML output is needed, include YAML-specific tests.
+
+---
+
+## Roleplaying as Instruction-Following
+
+- Roleplaying is a common instruction type that is used for two purposes:
+
+  1. Roleplaying a character for users to interact with.
+  2. Roleplaying as a prompt engineering technique to improve the quality of a model's output.
+- Use cases include non-player characters (NPCs) in games, AI companions, and writing assistants.
+- Benchmarks include [RoleLLM (Wang et al, 2023)](https://arxiv.org/pdf/2310.00746) and CharacterEval.
+
+---
+
+## RoleLLM
+
+![h:450px center](./images/03_rolellm.png)
+<center>(Wang et al, 2023)</center>
+
+---
+
+## Roleplaying Evaluation
+
+- Models must stay consistent with role style and knowledge.
+- Example: A Jackie Chan persona should not speak Vietnamese if  does not.
+- Evaluation often combines heuristics and AI-as-judge approaches.
+- Image: an example of RoleBench (Wang et al, 2023).
+
+![bg contain right:40%](./images/03_rolebench.png)
+
+---
+
+## Trilemmas 
+
+
+- A model that generates high-quality output, but is slow and costly will not be useful.
+- While designing AI systems, we must balance:
+
+  + Output quality.
+  + Latency.
+  + Cost.
+
+- Also, consider that we generally will be forced to select at most two:
+
+  + Speed.
+  + Complexity.
+  + Stability.
+
+---
+
+## Pareto Optimisation
+
++ Optimising multiple objectives is an active field of research called Pareto Optimisation.
++ When facing multiple objectives be clear about which objectives can be compromised and which ones cannot.
+
+---
+##  Latency and Cost
+
+### Latency
+
+- Metrics: time-to-first-token, time per token, total query time.
+- Influenced by model, prompt, and sampling variables.
+
+### Cost
+
+- Cost drivers: input/output tokens (APIs), compute (self-hosted).
+- Trade-offs: performance vs cost vs latency.
+
+---
+## Example of Model Selection Criteria (1/2)
+
+Criteria | Metric | Benchmark | Hard requirement | Ideal
+---------|--------|-----------|------------------|---------
+ Cost | Cost per output token | X | < $30.00 / 1M tokens | < $15.00 / 1M tokens 
+ Scale | TPM (tokens per minute) | X |  > 1M TPM |  > 1M TPM
+ Latency |  Time to first token (P90) | Internal user prompt dataset |  < 200ms | < 100ms
+ Latency|  Time per total query (P90) | Internal user prompt dataset |  < 1m |  < 30s
+
+(Huyen, 2025)
+
+---
+
+## Example of Model Selection Criteria (2/2)
+
+
+Criteria | Metric | Benchmark | Hard requirement | Ideal
+---------|--------|-----------|------------------|---------
+ Overall model quality |  Elo score | Chatbot Arena’s ranking | > 1200 | >1250
+Code generation capability | pass@1 |  HumanEval | > 90% | >95%
+ Factual consistency |Internal GPT metric | Internal hallucination dataset | > 0.8 | > 0.9
+ 
+ 
+(Huyen, 2025)
+
+ 
+---
+
+## Model Selection Workflow
+
++ Generally, we are not searching for the best model overall, we are looking for the best model for our application.
++ A workflow for model selection is:
+
+  1. Filter by hard attributes: license, privacy, architecture.
+  2. Narrow with benchmarks and leaderboards.
+  3. Run your custom evaluation pipeline.
+  4. Monitor in production for failures and drift.
+
+---
+
+## Model Selection Workflow
+
+![h:450px center](./images/03_model_selection.png)
+<center>(Huyen, 2025)</center>
+
+---
+
+## Open Source vs Model APIs
+
+- Build vs Buy:  the decision will typically be use a commercial API or host an Open Source model.
+
+### Model APIs
+
+- Pros: best models, scaling, guardrails, features (function calling).
+- Cons: cost, vendor lock-in, limited control/transparency.
+
+### Self-Hosting
+
+- Pros: control, transparency, customization, on-device.
+- Cons: big/costly engineering effort, usually weaker models.
+
+---
+
+## Open Source vs Proprietary Models
+
+- Proprietary models often provide cutting-edge performance via APIs.
+- Open source models allow customization and on-premises deployment.
+- API services now exist that wrap open source models with added infrastructure.
+- Inference and fine-tuning services for open source models are available from cloud providers like Azure, AWS, or GCP.
+- Teams must weigh performance against control, cost, and privacy needs.
+
+---
+
+## Open vs Closed Models: Performance
+
+![h:425px center](./images/03_open_vs_closed.png)
+<center> Performance comparison of closed-source and open-weight large language models on the MMLU (5-shot) benchmark. (Riedemann et al, 2024)</center>
+
+---
+
+## Open vs Closed Models: Privacy
+
+
++ Externally hosted model APIs are out of the question for organizations with strict privacy restrictions.
++ There is a risk that a model API provider can use your data to train its models, even though most providers claim that they do not do so.
+
+---
+
+## Open vs Closed Models: Data Lineage and Copyright
+
++ For most models, it is unclear the data that was used for training.
++ IP laws around AI are actively evolving.
++ Some companies will choose open models for transparency, other companies will select closed models to avoid legal risk exposure.
+
+---
+
+## Open vs Closed Models: API Cost vs Engineering Cost
+
++ Model APIs are expensive and engineering can be more so.
++ With enough scale, organisations will consider hosting their own models.
++ Model APIs charge per usage and create a dependency on their Service Level Agreement (SLA).
++ Hosted models afford control and flexibility, but effort must be spent to maintain the interface, guardrails, scale, and optimise the model.
++ In all cases, we prefer models that:
+   1. Are easy to use and manipulate. 
+   2. Implement a standard interface, which makes it easier to swap models.
+
+---
+
+## Open vs Closed Models: 
+
+
+
+---
+
+## Benchmarks and Leaderboards
+
+- Thousands of [benchmarks]() exist, covering math, science, law, reasoning, and more.
+- Benchmarks can become saturated quickly, requiring new ones. 
+- Trustworthiness of benchmarks varies; evaluation design is crucial.
+- Leaderboards like [LMSYS Chatbot Arena](https://lmarena.ai/) provide [crowd-sourced comparisons](https://lmarena.ai/leaderboard).
+- Different leaderboards use different benchmarks, therefore their rankings can be different. 
+
+---
+
+## Custom Leaderboards with Public Benchmarks
+
++ A custom leaderboard can be created using benchmarks that are relevant to your application. 
++ Once selected, you need to aggregate them considering:
+
+  - The weight or relative importance of each benchmark.
+  - The aggregation method: average, mean win rate (the fraction of times a model obtains a better score than onother model, averaged across scenarios), etc.
+
+---
+
+## Data Contamination
+
+- Models often trained on public benchmarks which leads to inflated scores.
+- Detection can be done by calculating n-gram overlap or observing low perplexity.
+- Handling: disclose contamination, evaluate on clean subsets.
+- Lesson: don’t fully trust public benchmark scores.
 
 
 
@@ -743,22 +951,41 @@ Unsafe content includes:
 
 ---
 
-# Designing an Evaluation Pipeline
 
-1. **Evaluate all components** (per task, per turn, per step)
-2. **Create clear guidelines** & rubrics tied to business metrics
-3. **Define evaluation methods & datasets** (exact, subjective, human-in-loop)
-4. **Validate the pipeline** (reliability, bootstrap resampling, significance tests)
+## Why Pipelines Matter
+
+- Evaluation should not be one-off project but a continuous process.
+- Pipelines ensure reliable tracking of progress over time by combining automatic evaluation with human or AI-judge oversight.
+- Pipelines help identify risks, failures, and opportunities for improvement.  
 
 ---
 
-# Key Takeaways
+# Designing an Evaluation Pipeline
 
-- Evaluation is **harder than ever** but critical for AI safety & adoption
-- Mix of methods: **functional correctness + similarity + AI judges + human checks**
-- Comparative evaluation rising as models surpass human skill
-- Custom pipelines > public benchmarks for real-world apps
-- Evaluation is the **biggest bottleneck to AI adoption**
+1. Evaluate all components: per task, per turn, per step.
+2. Create clear guidelines and rubrics tied to business metrics.
+3. Define evaluation methods and datasets: exact, subjective, human-in-the-loop.
+4. Validate the pipeline: reliability, bootstrap resampling, significance tests.
+
+---
+
+## Pipeline Components
+
+- Define evaluation criteria before building the system.
+- Use domain benchmarks for capability checks.
+- Apply similarity or correctness metrics for generation tasks.  
+- Integrate AI as a judge for scalable subjective evaluation. 
+- Include safety and bias checks to ensure responsible deployment.
+
+---
+
+## Continuous Evaluation
+
+- Evaluation should be performed during all stages of development .  
+- Early tests can be simple (eyeballing, small benchmarks) but most tests must scale later.  
+- Over time, evaluation should become systematic and automated .  
+- This enables faster iteration while maintaining reliability .  
+- If you care about something, test it automatically.
 
 ---
 
@@ -772,9 +999,24 @@ Unsafe content includes:
 - Chen, Mark et al. (2021). "Evaluating large language models trained on code." [arXiv:2107.03374](https://arxiv.org/abs/2107.03374).
 - Feng, Shangbin et al. "From pretraining data to language models to downstream tasks: Tracking the trails of political biases leading to unfair NLP models." [arXiv:2305.08283](https://arxiv.org/abs/2305.08283) (2023).
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
-- Slattery, P. et al (2024). The AI Risk Repository: A Comprehensive Meta-Review, Database, and Taxonomy of Risks from Artificial Intelligence. [arxiv:2408.12622](https://arxiv.org/pdf/2408.12622)
-- Wei, Jerry et al. "Long-form factuality in large language models." Advances in Neural Information Processing Systems 37 (2024): 80756-80827. [arXiv:2403.18802](https://arxiv.org/abs/2403.18802)
+- Lin, Stephanie, Jacob Hilton, and Owain Evans. "Truthfulqa: Measuring how models mimic human falsehoods." [arXiv:2109.07958](https://arxiv.org/abs/2109.07958) (2021).
 
+---
+
+## References
+
+
+- Qin, Yiwei, et al. "Infobench: Evaluating instruction following ability in large language models." [arXiv:2401.03601](https://arxiv.org/abs/2401.03601) (2024).
++ Riedemann, Lars, Maxime Labonne, & Stephen Gilbert. (2024). The path forward for large language models in medicine is open. npj Digital Medicine. 7. 10.1038/s41746-024-01344-w. 
+- Slattery, P. et al (2024). The AI Risk Repository: A Comprehensive Meta-Review, Database, and Taxonomy of Risks from Artificial Intelligence. [arxiv:2408.12622](https://arxiv.org/pdf/2408.12622)
+
+----
+
+## References
+
+- Wang, Zekun Moore,  et al. "Rolellm: Benchmarking, eliciting, and enhancing role-playing abilities of large language models." [arXiv:2310.00746](https://arxiv.org/abs/2310.00746) (2023).
+- Wei, Jerry et al. "Long-form factuality in large language models." Advances in Neural Information Processing Systems 37 (2024): 80756-80827. [arXiv:2403.18802](https://arxiv.org/abs/2403.18802)
+- Zhou, Jeffrey et al. "Instruction-following evaluation for large language models."  [arXiv:2311.07911](https://arxiv.org/abs/2311.07911) (2023).
 
 
 ---
