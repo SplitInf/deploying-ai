@@ -36,7 +36,12 @@ $ echo "Data Science Institute"
 
 ---
 
+## Reference Process Flow
 
+![h:500px center](./images/02_foundation_model.png)
+<center>(Bommasani et al, 2025)</center>
+
+---
 
 ## What is Prompt Engineering?
 
@@ -44,6 +49,7 @@ $ echo "Data Science Institute"
 - It is the easiest and most common model adaptation technique.  
 - Unlike finetuning, it does not change the model’s weights but instead steers its behavior.  
 - Strong foundation models can often be adapted using prompt engineering alone.
+- It is easy to write prompts, but not easy to write effective prompts.
 
 ---
 
@@ -54,12 +60,14 @@ $ echo "Data Science Institute"
 - It should be treated with the same rigor as any machine learning experiment.  
 - Effective prompt engineering requires communication skills and technical knowledge.
 
+![bg contain right:40%](./images/04_prompt_engineer.jpg)
+
 ---
 
 ## The Role of Prompt Engineering
 
-- Prompt engineering is a valuable skill but not sufficient alone for production systems.  
-- Developers also need skills in statistics, engineering, and dataset curation.  
+- Prompt engineering is a valuable skill but not sufficient alone for production systems.
+- Developers also need skills in statistics, engineering, and dataset curation.
 - Well-designed prompts can power real applications but require careful defense against attacks.
 
 ---
@@ -72,15 +80,19 @@ $ echo "Data Science Institute"
 
 - A prompt is an instruction given to a model to perform a task.  
 - Prompts may include task descriptions, examples, and the specific task to perform.  
-- For example, prompts can ask models to summarize, translate, classify, or generate text.
 
----
+```
+Given a text, extract all entities. Output only the list of extracted entities, separated by commas, and nothing else.
 
-## Instruction-Following Capability
+Text: "Brave New World is a dystopian novel written by Aldous Huxley, first published in 1932."
+Entities: Brave New World, Aldous Huxley
 
-- A model must be able to follow instructions for prompts to work.  
-- Weak models cannot follow even well-designed prompts.  
-- The robustness of a model to prompt perturbations greatly affects the effort needed.
+Text: ${TEXT_TO_EXTRACT_ENTITIES_FROM}
+Entities:
+```
+
++ For prompting to work, the model must be able to follow instructions. 
++ How much prompt engineering is needed depnds on how robust the model is to prompt perturbations.
 
 ---
 
@@ -102,6 +114,7 @@ $ echo "Data Science Institute"
 - Zero-shot learning uses no examples in the prompt.  
 - Few-shot learning uses a small number of examples to guide the model.  
 - The effectiveness depends on the model and the task.
+- GPT-3 demonstrated that it was able to learn examples contained in the prompt, even if the desirable behaviour is different from the behaviour that the model was trained on.
 
 ---
 
@@ -120,9 +133,24 @@ $ echo "Data Science Institute"
 ## System Prompts and User Prompts
 
 - Many APIs separate prompts into system prompts and user prompts.  
-- The system prompt defines rules, roles, and tone.  
-- The user prompt contains the specific task or query.  
+  - The system prompt defines rules, roles, and tone.  
+  - The user prompt contains the specific task or query.  
 - The final input is a combination of both.
+
+
+```
+System prompt: 
+You are an experienced real estate agent. Your job is to read each 
+disclosure carefully, fairly assess the condition of the property 
+based on this disclosure, and help your buyer understand the risks 
+and opportunities of each property. For each question, answer 
+succinctly and professionally.
+
+User prompt:
+Context: [disclosure.pdf]
+Question: Summarize the noise complaints, if any, about this property.
+Answer:
+```
 
 ---
 
@@ -131,6 +159,31 @@ $ echo "Data Science Institute"
 - Models such as Llama require specific chat templates.  
 - Deviations from templates can cause degraded performance.  
 - Using incorrect templates is a common source of silent failures.
+- For example, Llama 3 prompts need to follow a specific [prompt template](https://github.com/meta-llama/llama3?tab=readme-ov-file#instruction-tuned-models). For example:
+- When implementing or fine-tuning a model with a given template, it is important to maintain the template's integrity.
+
+---
+
+## Example of a Chat Template
+
+```
+<s> [INST] <<SYS>>
+You are a friendly chatbot who always responds in the style of a pirate
+<</SYS>>
+
+How many helicopters can a human eat in one sitting? [/INST] 
+
+Ahoy there, mate! A human can't eat a helicopter in one sitting, no matter 
+how much they might want to. They're made of metal and have blades that spin 
+at high speeds, not exactly something you'd want to put in your belly!</s>  
+
+<s> [INST] Are you sure?</s>  [/INST] 
+
+Aye, I'm sure! Helicopters are designed for flight and are not meant to be 
+consumed by humans. They're made of metal and have blades that spin at high 
+speeds, which would be very dangerous to ingest. So, no human can eat a 
+helicopter in one sitting, no matter how much they might want to.</s>
+```
 
 ---
 
@@ -143,6 +196,9 @@ $ echo "Data Science Institute"
 - Context length determines how much information a model can process in one prompt.  
 - Context windows have grown from 1K tokens in GPT-2 to 2M tokens in Gemini-1.5.  
 - Larger context allows models to handle long documents and complex tasks.
+- Image: [(Yun, 2024)](https://www.artfish.ai/p/long-context-llms)
+
+![bg contain right:50%](./images/04_context_length.jpg)
 
 ---
 
@@ -154,22 +210,39 @@ $ echo "Data Science Institute"
 
 ---
 
+## Needle in the Haystack
+
+Needle in the Haystack (NIAH): insert a random piece of information (needle) in different locations of the prompt (haystack) and ask a model to find it.
+
+![h:400px center](./images/04_position_importance.png)
+<center> (Liu et al, 2023)</center>
+
+---
+
 # Best Practices in Prompt Engineering
 
 ---
 
 ## Writing Clear Instructions
 
-- Clear and explicit instructions reduce ambiguity.  
-- Specify scoring systems, required formats, or acceptable ranges.  
+- Clear and explicit instructions reduce ambiguity.
+  + Explain what you want the model to do: "score between 1 and 5..."
+  + Adjust prompts to reduce unwanted behaviour: if the model outputs 4.5, update the prompt to output integers.
+- Specify scoring systems, rubrics, required formats, or acceptable ranges.  
 - Include examples to clarify expected responses.
 
 ---
 
 ## Using Personas
 
-- Assigning a persona helps models respond appropriately.  
+- Assigning a persona helps models respond appropriately.
 - For example, scoring essays as a first-grade teacher yields different results than as a professional editor.
+
+---
+
+## Scoring an Essay with DIfferent Personas
+
+![h:450px center](./images/04_persona_example.png)
 
 ---
 
@@ -333,3 +406,5 @@ $ echo "Data Science Institute"
 ## References
 
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
+- Liu, Nelson F. et al. "Lost in the middle: How language models use long contexts." [arXiv:2307.03172](https://arxiv.org/abs/2307.03172) (2023).
+- Yun, Yennie. Evaluating long context large language models. [artfish.ai](https://www.artfish.ai/p/long-context-llms)
