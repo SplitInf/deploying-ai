@@ -253,11 +253,50 @@ Needle in the Haystack (NIAH): insert a random piece of information (needle) in 
 
 ---
 
+## Nudging a Model with Examples
+
+![h:450px center](./images/04_example_santa.png)
+<center>(Huyen, 2025)</center>
+
+
+---
+
+## Example Formats (1/2)
+
+Prompt | # tokens (GPT-4)
+-------|-----------------
+Label the following item as edible or inedible.<br><br>Input: chickpea<br>Output: edible<br><br>Input: box<br>Output: inedible<br><br>Input: pizza<br>Output:| 38
+
+
+
+---
+
+## Example Formats (2/2)
+
+Prompt | # tokens (GPT-4)
+-------|-----------------
+Label the following item as edible or inedible.<br><br>chickpea --> edible<br>box --> inedible<br>pizza -->|27
+
+Some example formats are more expensive than others (Huyen, 2025).
+
+---
+
 ## Specifying Output Format
 
 - Structured tasks require explicit instructions about output format.  
 - Models should be told to produce JSON, integers, or labeled text.  
 - Using markers prevents confusion between inputs and outputs.
+
+---
+
+## Markers
+
+Prompt | Model's output
+-------|----------------
+Label the following item as edible or inedible.<br>pineapple pizza --> edible<br>cardboard --> inedible<br>chicken | tacos --> edible
+Pineapple pizza --> edible<br>cardboard --> inedible<br> chicken -->|edible
+
+Without explicit markers to mark the end of the input, a model might continue appending to it instead of generating structured outputs (Huyen, 2025).
 
 ---
 
@@ -277,6 +316,92 @@ Needle in the Haystack (NIAH): insert a random piece of information (needle) in 
 - Complex tasks should be broken into smaller subtasks.  
 - Each subtask can have its own prompt.  
 - Subtask chaining improves performance and reliability.
+- For example, a customer chatbot. Respond to a customer request in two steps:
+
+  1. Intent classification: identify the intent of the request.
+  2. Response generation: based on the intent, respond appropriately.
+
+---
+
+## Intent Classification
+
+![h:450px center](./images/04_task_breakdown_1.png)
+<center>(Huyen, 2025)</center>
+
+---
+
+## Intent Classification
+
+![h:300px center](./images/04_task_breakdown_2.png)
+<center>(Huyen, 2025)</center>
+
+---
+
+## Intent Classification
+
+### Prompt 1 (intent classification)
+
+```
+SYSTEM
+
+You will be provided with customer service queries. Classify each query into a primary category and a secondary category. 
+Provide your output in json format with the keys: primary and secondary.
+
+Primary categories: Billing, Technical Support, Account Management, or General Inquiry.
+
+Billing secondary categories:
+- Unsubscribe or upgrade
+- …
+
+Technical Support secondary categories:
+- Troubleshooting
+- …
+
+Account Management secondary categories:
+- …
+
+General Inquiry secondary categories:
+- …
+
+USER
+I need to get my internet working again
+```
+
+---
+
+## Response
+
+### Prompt 2 (response to troubleshooting request)
+
+```
+SYSTEM
+You will be provided with customer service inquiries that require trouble shooting in a technical support context. 
+
+Help the user by:
+
+- Ask them to check that all cables to/from the router are connected. Note that it is common for cables to come loose over time.
+- If all cables are connected and the issue persists, ask them which router model they are using.
+- If the customer's issue persists after restarting the device and waiting 5 minutes, connect them to IT support by outputting 
+{"IT support requested"}.
+- If the user starts asking questions that are unrelated to this topic  then confirm if they would like to end the current chat 
+about trouble  shooting and classify their request according to the following scheme:
+
+<insert primary/secondary classification scheme from above here>
+ 
+USER
+I need to get my internet working again.
+
+```
+
+---
+
+## Intent Classification: A Few Notes
+
++ Why not decompose the prompt into one prompt for primary intent category and another for the secondary category?
+
+  - The granularity each subtask should be depnds on each use case and the performance, cost, and latency restrictions.
+  
++ Models are getting better at understanding complex instructions, but they are still better at performing simple ones.
 
 ---
 
@@ -285,7 +410,7 @@ Needle in the Haystack (NIAH): insert a random piece of information (needle) in 
 - Monitoring intermediate results becomes easier.  
 - Debugging faulty steps is more manageable.  
 - Some steps can be parallelized to save time.  
-- Overall reliability improves even if costs increase slightly.
+- Effort: it is easier to write simple prompts than complex ones.
 
 ---
 
@@ -296,8 +421,24 @@ Needle in the Haystack (NIAH): insert a random piece of information (needle) in 
 ## Chain-of-Thought Prompting
 
 - Chain-of-thought prompting asks models to reason step by step.  
-- It significantly improves reasoning and reduces hallucinations.  
+- It significantly improves reasoning and reduces hallucinations  (Wei et al, 2022).
 - Variants include “think step by step” or “explain your decision”.
+
+![bg contain right:50%](./images/04_cot_performance.png)
+
+---
+
+## CoT Illustration
+
+![h:450px center](./images/04_chain_of_thought.png)
+<center>(Wei et al, 2022)</center>
+
+---
+
+## CoT Prompt Variations
+
+![h:450px center](./images/04_cot_variations.png)
+<center>(Huyen, 2025)</center>
 
 ---
 
@@ -407,4 +548,5 @@ Needle in the Haystack (NIAH): insert a random piece of information (needle) in 
 
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
 - Liu, Nelson F. et al. "Lost in the middle: How language models use long contexts." [arXiv:2307.03172](https://arxiv.org/abs/2307.03172) (2023).
+- Wei, Jason et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837.  [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
 - Yun, Yennie. Evaluating long context large language models. [artfish.ai](https://www.artfish.ai/p/long-context-llms)
