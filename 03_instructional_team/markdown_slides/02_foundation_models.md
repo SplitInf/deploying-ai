@@ -737,8 +737,14 @@ $$
 ## Test Time Compute (1/2)
 
 + Test Time Compute: instead of generating one response per query, generate multiple responses to increase the chance of a good one.
-+ Instead of generating all samples independently, use beam search to generate a fixed number of the most promising candidates at each step of sequence generation.
++ Instead of generating all samples independently, use [beam search](https://huggingface.co/spaces/m-ric/beam_search_visualizer) to generate a fixed number of the most promising candidates at each step of sequence generation.
 + Test Time Compute is expensive. On average, generating two sequences will cost twice as much.
+
+---
+
+
+![h:500px center](./images/02_beam_search.png)
+Source: [Huggingface's Beam Search Visualizer](https://huggingface.co/spaces/m-ric/beam_search_visualizer).
 
 ---
 
