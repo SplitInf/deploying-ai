@@ -908,7 +908,7 @@ Code generation capability | pass@1 |  HumanEval | > 90% | >95%
 
 ---
 
-## Open vs Closed Models: 
+## Open vs Closed Models
 
 
 
