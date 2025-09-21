@@ -130,23 +130,28 @@ Entities:
 
 ---
 
-## System Prompts and User Prompts
+## System Prompts and User Prompts (1/2)
 
 - Many APIs separate prompts into system prompts and user prompts.  
   - The system prompt defines rules, roles, and tone.  
   - The user prompt contains the specific task or query.  
 - The final input is a combination of both.
 
+---
+
+## System Prompts and User Prompts (2/2)
+
+
+### System prompt
 
 ```
-System prompt: 
-You are an experienced real estate agent. Your job is to read each 
-disclosure carefully, fairly assess the condition of the property 
-based on this disclosure, and help your buyer understand the risks 
-and opportunities of each property. For each question, answer 
+You are an experienced real estate agent. Your job is to read each disclosure carefully, 
+fairly assess the condition of the property based on this disclosure, and help your 
+buyer understand the risks and opportunities of each property. For each question, answer 
 succinctly and professionally.
-
-User prompt:
+````
+### User prompt
+```
 Context: [disclosure.pdf]
 Question: Summarize the noise complaints, if any, about this property.
 Answer:
@@ -233,25 +238,208 @@ Needle in the Haystack (NIAH): insert a random piece of information (needle) in 
 
 ---
 
+## Unclear Pormpts 
+
+
+### Role: User 
+
+#### Unclear Prompt
+
+```
+Please remove all personally identifiable information from these customer feedback messages: {{FEEDBACK_DATA}}
+```
+
+### Role: Assistant (Claude's response)
+
+```
+Here are the anonymized customer feedback messages:
+1. I’ve been using your software for years, and it’s been great. But lately, AcmeCloud has been crashing a lot. Fix it!
+2. XXX, your customer support rep, was incredibly helpful. He guided me through the whole process. 
+My email is XXX if you want to send a survey.
+3. I’m John Smith, and I’m not happy. I’ve been on hold for 2 hours trying to reach someone at XXX. This is unacceptable!
+```
+
+(This example is from  [Claude Docs (docs.cloude.com)](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct#examples).)
+
+
+
+
+---
+
+## Clear Pormpt (1/2)
+
+### Role: User
+### Clear Prompt
+
+```
+Your task is to anonymize customer feedback for our quarterly review.
+
+Instructions:
+1. Replace all customer names with “CUSTOMER_[ID]” (e.g., “Jane Doe” → “CUSTOMER_001”).
+2. Replace email addresses with “EMAIL_[ID]@example.com”.
+3. Redact phone numbers as “PHONE_[ID]“.
+4. If a message mentions a specific product (e.g., “AcmeCloud”), leave it intact.
+5. If no PII is found, copy the message verbatim.
+6. Output only the processed messages, separated by ”---”.
+
+Data to process: {{FEEDBACK_DATA}}
+
+```
+
+
+---
+
+
+## Clear and Unclear Pormpts (1/2)
+### Role: Assistant (Claude's response)
+
+
+```
+CUSTOMER_001: I’ve been using your software for years, and it’s been great. But lately, AcmeCloud has been crashing a lot. Fix it!
+---
+CUSTOMER_002: CUSTOMER_SERVICE_001, your customer support rep, was incredibly helpful. He guided me through the whole process. 
+My email is EMAIL_002@example.com if you want to send a survey.
+---
+CUSTOMER_003: I’m CUSTOMER_003, and I’m not happy. I’ve been on hold for 2 hours trying to reach someone at PHONE_001. This is unacceptable!
+```
+
+---
+
 ## Using Personas
 
 - Assigning a persona helps models respond appropriately.
 - For example, scoring essays as a first-grade teacher yields different results than as a professional editor.
 
----
 
-## Scoring an Essay with DIfferent Personas
-
-![h:450px center](./images/04_persona_example.png)
+![bg contain right:50%](./images/04_persona_example.png)
 
 ---
 
 ## Providing Examples
 
-- Examples guide the model toward the desired output style.  
-- Few tokens should be used to conserve context space and reduce costs.
+- Examples guide the model toward the desired output style ([Anthropic](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting)).  
+
+  + **Accuracy**: Examples reduce misrepresentation of instructions.
+  + **Consistency**: Examples enforce uniform structure and style.
+  + **Performance**: Well-chosen examples boost the model's ability to handle complex tasks.
+
+
 
 ---
+
+## Effective Examples
+
+Effective examples are:
+
++ **Relevant**: The examples mirror the actual use case.
++ **Diverse**: Examples cover edge cases, potential challenges, and vary enough so that the model does not learn unintended patterns.
++ **Clear**: The examples are indicated with markers or tags such as `<example>`.
+
+---
+
+## No Examples (1/2)
+
+### Role: User
+#### Prompt without examples
+
+```
+Analyze this customer feedback and categorize the issues. 
+Use these categories: UI/UX, Performance, Feature Request, Integration, Pricing, and Other. 
+Also rate the sentiment (Positive/Neutral/Negative) and priority (High/Medium/Low).
+
+Here is the feedback: {{FEEDBACK}}
+```
+(Source: [Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting#crafting-effective-examples))
+
+---
+
+## No Examples (2/2)
+
+### Role: Assistant (Claude's response)
+
+```
+Here’s the analysis of the customer feedback:
+
+Issue: UI/UX
+Sentiment: Negative
+Priority: High
+The customer is frustrated with the new dashboard design, which they find cluttered and slow to load. 
+They specifically call out the missing “export” button, which is likely a critical feature. This issue needs to be addressed as a high priority.
+
+Issue: Integration
+Sentiment: Positive
+Priority: Medium
+The customer is pleased with the existing Salesforce integration but would like to see support for Hubspot 
+as well. This is a feature request that could be considered for a future product update.
+
+Issue: Pricing
+Sentiment: Negative
+Priority: High
+The customer finds the pricing to be unreasonable, especially for the basic features. They are threatening 
+to switch to a competitor, so this is a high-priority issue that needs to be reviewed.
+
+Issue: Performance
+Sentiment Negative
+Priority: High
+The customer is experiencing critical issues with the mobile app, where large file uploads consistently 
+result in crashes. This is a significant problem that impacts the customer’s ability to use the product 
+effectively and should be addressed as a high priority.
+
+```
+---
+
+## With Examples (1/2)
+
+### Role: User
+#### Prompt with examples
+
+```
+Our CS team is overwhelmed with unstructured feedback. Your task is to analyze feedback and categorize 
+issues for our product and engineering teams. Use these categories: UI/UX, Performance, Feature Request, 
+Integration, Pricing, and Other. Also rate the sentiment (Positive/Neutral/Negative) and priority 
+(High/Medium/Low). Here is an example:
+
+<example>
+Input: The new dashboard is a mess! It takes forever to load, and I can’t find the export button. Fix this ASAP!
+Category: UI/UX, Performance
+Sentiment: Negative
+Priority: High</example>
+
+Now, analyze this feedback: {{FEEDBACK}}
+```
+
+---
+
+## With Examples (2/2)
+
+### Role: Assistant (Claude's response)
+
+```
+Here’s the analysis of the customer feedback:
+
+1. The new dashboard is a mess! It takes forever to load, and I can’t find the export button. Fix this ASAP!
+Category: UI/UX, Performance
+Sentiment: Negative
+Priority: High
+
+2. Love the Salesforce integration! But it’d be great if you could add Hubspot too.
+Category: Integration, Feature Request
+Sentiment: Positive
+Priority: Medium
+
+3. Your pricing is ridiculous! $99/mo for basic features? I’m switching to Competitor X.
+Category: Pricing
+Sentiment: Negative
+Priority: High
+
+4. The mobile app keeps crashing when I try to upload large files (>50MB). This is critical for our field agents.
+Category: Performance
+Sentiment: Negative
+Priority: High
+```
+
+---
+
 
 ## Nudging a Model with Examples
 
@@ -262,6 +450,8 @@ Needle in the Haystack (NIAH): insert a random piece of information (needle) in 
 ---
 
 ## Example Formats (1/2)
+
+### Fewer tokens should be used to conserve context space and reduce costs.
 
 Prompt | # tokens (GPT-4)
 -------|-----------------
@@ -300,10 +490,25 @@ Without explicit markers to mark the end of the input, a model might continue ap
 
 ---
 
-## Providing Sufficient Context
+## Provide Sufficient Context (1/2)
 
 - Including reference texts improves accuracy and reduces hallucinations.  
 - Context can be supplied directly or retrieved through tools like RAG pipelines.
+- In some scenarios, we want to **restrict the response to only consider the context that we provided**.
+  + Clear instructions: "Answer using only the provided context."
+  + Examples of questions that it should not be able to answer.
+  + Instruct the model to specifically quote the corpus that we provided.
+
+---
+
+## Provide Sufficient Context (2/2)
+
+Add contextual information such as:
+
+- Describe how the task results will be used.
+- Establish the intended audience.
+- What workflow the task is part of and where does this task belong within the workflow.
+- What is the end goal of the task and what does a successful completion look like.
 
 ---
 
@@ -313,33 +518,24 @@ Without explicit markers to mark the end of the input, a model might continue ap
 
 ## Decomposing Tasks
 
-- Complex tasks should be broken into smaller subtasks.  
-- Each subtask can have its own prompt.  
+- Complex tasks should be broken into smaller subtasks. 
+
+  + Most of the time, tasks will be broken into sequential steps. 
+  + Provide subtasks as numbered lists or bullet points.
+  + Each subtask could have its own prompt.
+
 - Subtask chaining improves performance and reliability.
 - For example, a customer chatbot. Respond to a customer request in two steps:
 
-  1. Intent classification: identify the intent of the request.
-  2. Response generation: based on the intent, respond appropriately.
+  1. **Intent classification**: identify the intent of the request.
+  2. **Response generation**: based on the intent, respond appropriately.
+
 
 ---
 
 ## Intent Classification
 
-![h:450px center](./images/04_task_breakdown_1.png)
-<center>(Huyen, 2025)</center>
-
----
-
-## Intent Classification
-
-![h:300px center](./images/04_task_breakdown_2.png)
-<center>(Huyen, 2025)</center>
-
----
-
-## Intent Classification
-
-### Prompt 1 (intent classification)
+### Prompt 1: Intent classification
 
 ```
 SYSTEM
@@ -371,7 +567,7 @@ I need to get my internet working again
 
 ## Response
 
-### Prompt 2 (response to troubleshooting request)
+### Prompt 2: Response to troubleshooting request
 
 ```
 SYSTEM
@@ -418,7 +614,7 @@ I need to get my internet working again.
 
 ---
 
-## Chain-of-Thought Prompting
+## Chain-of-Thought (CoT) Prompting
 
 - Chain-of-thought prompting asks models to reason step by step.  
 - It significantly improves reasoning and reduces hallucinations  (Wei et al, 2022).
@@ -428,10 +624,106 @@ I need to get my internet working again.
 
 ---
 
+
 ## CoT Illustration
 
 ![h:450px center](./images/04_chain_of_thought.png)
 <center>(Wei et al, 2022)</center>
+
+---
+
+## How to Prompt for CoT (1/3)
+
+### Basic prompt
+
++ Include `Think step by step` in your prompts.
++ Does not include guidance on *how* to think step-by-step. ([Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought#how-to-prompt-for-thinking))
+
+
+### Role: User
+
+```
+Draft personalized emails to donors asking for contributions to this year’s Care for Kids program.
+
+Program information:
+<program>{{PROGRAM_DETAILS}}
+</program>
+
+Donor information:
+<donor>{{DONOR_DETAILS}}
+</donor>
+
+Think step-by-step before you write the email.
+```
+---
+## How to Prompt for CoT (2/3)
+
+### Guided prompt
+
++ Outline specific steps for the model to follow.
++ Does not have a structure to simplify separating the answer from the thinking. ([Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought#how-to-prompt-for-thinking))
+
+### Role: User
+
+```
+Draft personalized emails to donors asking for contributions to this year’s Care for Kids program.
+
+Program information:
+<program>{{PROGRAM_DETAILS}}
+</program>
+
+Donor information:
+<donor>{{DONOR_DETAILS}}
+</donor>
+
+Think before you write the email. First, think through what messaging might appeal to this donor given their donation history and which campaigns 
+they’ve supported in the past. Then, think through what aspects of the Care for Kids program would appeal to them, given their history. Finally, write 
+the personalized donor email using your analysis.
+```
+---
+
+## How to Prompt for CoT (3/3)
+
+### Structured prompt
+
++ Use XML tags like `<thinking>` and `<answer>` to separate reasoning from the final answer ([Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought#how-to-prompt-for-thinking)).
+
+### Role: User
+
+```
+Draft personalized emails to donors asking for contributions to this year’s Care for Kids program.
+
+Program information:
+<program>{{PROGRAM_DETAILS}}
+</program>
+
+Donor information:
+<donor>{{DONOR_DETAILS}}
+</donor>
+
+Think before you write the email in <thinking> tags. First, think through what messaging might appeal to this donor given 
+their donation history and which campaigns they’ve supported in the past. Then, think through what aspects of the Care for Kids 
+program would appeal to them, given their history. Finally, write the personalized donor email in <email> tags, using your 
+analysis.
+```
+
+
+---
+
+## Why Use CoT Prompting?
+
+
++ Accuracy: Stepping through problems reduces errors, especially in math, logic, analysis, or generally complex tasks.
++ Coherence: Structured thinking leads to more cohesive, well-organized responses.
++ Debugging: Observing the model's process helps you pinpoint where prompts are unclear. ([Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought#why-let-claude-think%3F))
+
+--- 
+
+## Why Not To Use CoT Prompting?
+
++ Cost and latency because of increased output length.
++ Not all tasks require it: performance, latency, and costs should always be balanced([Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/chain-of-thought#why-not-let-claude-think%3F)).
+
 
 ---
 
@@ -442,11 +734,50 @@ I need to get my internet working again.
 
 ---
 
-## Self-Critique Prompting
+## Self-Critique Prompting (1/2)
 
 - Models can be instructed to review and critique their own outputs.  
 - This helps identify errors and improve reliability.  
 - However, it increases latency and costs.
+
+---
+
+## Self-Critique Promptin (2/2)
+
+Some techniques include:
+
++ Self-Calibration
++ Self-Refine
++ Reversing CoT (RCoT)
++ Self-Verification
++ Chain-of-Verification (CoVe)
++ Cumulative Reasoning (CR)
+
+---
+
+## Self-Calibration
+
+Self-Calibration is a two-step process:
+1. Get an initial answer.
+2. Ask the model whether the proposed answer is true or false.
+
+
+```
+Question: Who was the first president of the United States?
+Here are some brainstormed ideas:
+Thomas Jefferson
+John Adams
+George Washington
+Possible Answer: George Washington
+
+Is the possible answer:
+(A) True
+(B) False
+
+The possible answer is:
+```
+
+()
 
 ---
 
@@ -547,6 +878,7 @@ I need to get my internet working again.
 ## References
 
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
-- Liu, Nelson F. et al. "Lost in the middle: How language models use long contexts." [arXiv:2307.03172](https://arxiv.org/abs/2307.03172) (2023).
+-  Kadavath, S. et al. Language Models (Mostly) Know What They Know. [arXiv:2207.05221](https://arxiv.org/abs/2207.05221), 2022. 
+- Liu, Nelson F. et al. "Lost in the middle: How language models use long contexts." [arXiv:2307.03172](https://arxiv.org/abs/2307.03172), 2023.
 - Wei, Jason et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837.  [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
-- Yun, Yennie. Evaluating long context large language models. [artfish.ai](https://www.artfish.ai/p/long-context-llms)
+- Yun, Yennie. Evaluating long context large language models. [artfish.ai](https://www.artfish.ai/p/long-context-llms), 2025.
