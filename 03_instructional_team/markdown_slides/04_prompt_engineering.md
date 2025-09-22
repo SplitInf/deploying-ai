@@ -259,7 +259,7 @@ My email is XXX if you want to send a survey.
 3. I’m John Smith, and I’m not happy. I’ve been on hold for 2 hours trying to reach someone at XXX. This is unacceptable!
 ```
 
-(This example is from  [Claude Docs (docs.cloude.com)](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct#examples).)
+Source: [Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/be-clear-and-direct#examples).
 
 
 
@@ -349,7 +349,7 @@ Also rate the sentiment (Positive/Neutral/Negative) and priority (High/Medium/Lo
 
 Here is the feedback: {{FEEDBACK}}
 ```
-(Source: [Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting#crafting-effective-examples))
+Source: [Claude Docs](https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting#crafting-effective-examples).
 
 ---
 
@@ -776,8 +776,51 @@ Is the possible answer:
 
 The possible answer is:
 ```
+---
 
-()
+## Self-Calibration Works
+
+![h:450px center](./images/04_self_calibration.png)
+<center>(Kadavath et al, 2022)</center>
+
+---
+## Self-Calibration Limitations
+
++ Authors focus on pre-trained language models, but exclude fine-tuned models.
++ Technique may not work well for fine-tuned models.
+---
+
+## Self-Refine (1/2)
+
+![bg contain right:50%](./images/04_self_refine.png)
+
+Involves three steps:
+1. Initial output: Prompt the model to obtain the initial output.
+2. Feedback: Use the prompt and initial output to ask the model fore feedback.
+3. Refinement: Pass the feedback to the model to get the final output.
+
+---
+
+## Self-Refine (2/2)
+
+![h:450px center](./images/04_self_refine_examples.png)
+<center>(Madaan et al, 2023)</center>
+
+---
+
+## Self-Refine Example
+
+![h:450px center](./images/04_self_refine_steps.png)
+
+(Based on [this example by Bhaat](https://learnprompting.org/docs/advanced/self_criticism/self_refine).)
+
+---
+
+## Self-Refine Limitations
+
++ Base model needs to be capable of following instructions.
++ Can be used with malicious intent to steer a model into generating toxic/harmful text.
+
 
 ---
 
@@ -787,17 +830,37 @@ The possible answer is:
 
 ## Iterating on Prompts
 
+- Manual prompt construction is time-consuming and error-prone.
+- The optimal prompt is ellusive and can change over time.
 - Prompt engineering requires trial and error.  
 - Each model has quirks that must be discovered experimentally.  
 - Prompts should be versioned, tracked, and systematically tested.
 
+
+
 ---
 
-## Prompt Engineering Tools
+## Prompt Engineering Tools (1/2)
 
-- Tools like DSPy and PromptBreeder automate prompt optimization.  
-- AI models themselves can generate and refine prompts.  
+### Prompt optimization
+
++ [DSPy](https://dspy.ai/).
++ [PromptBreeder](https://github.com/vaughanlove/PromptBreeder).
+  
+### Guiding models to structured outputs
+
++ [Guidance](https://github.com/guidance-ai/guidance).
++ [Outlines](https://dottxt-ai.github.io/outlines/latest/).
+  
+
+---
+
+## Prompt Engineering Tools (2/2)
+
+
+- AI models themselves can generate and refine prompts.
 - Automated tools must be monitored to avoid runaway costs.
+
 
 ---
 
@@ -810,6 +873,20 @@ The possible answer is:
 - Prompts should be separated from code for readability and reuse.  
 - They can be organized into catalogs with metadata.  
 - Prompt catalogs allow versioning and tracking dependencies.
+
+
+---
+
+## Separate Prompts from Code
+
+Separating prompts from code is a good practice. Its advantages include:
+
++ **Reusability**: Many applications can reuse the same prompt or code.
++ **Testing**: Code and prompts can be tested separately.
++ **Readability**: Both, prompts and code, are easier to read separately.
++ **Collaboration**: SME can collaborate without the distraction of code.
+
+![bg contain right:45%](./images/04_code_from_prompts.png)
 
 ---
 
@@ -880,5 +957,6 @@ The possible answer is:
 - Huyen, Chip. Designing machine learning systems. O'Reilly Media, Inc., 2022 
 -  Kadavath, S. et al. Language Models (Mostly) Know What They Know. [arXiv:2207.05221](https://arxiv.org/abs/2207.05221), 2022. 
 - Liu, Nelson F. et al. "Lost in the middle: How language models use long contexts." [arXiv:2307.03172](https://arxiv.org/abs/2307.03172), 2023.
+- Madaan, Aman, et al. "Self-refine: Iterative refinement with self-feedback." Advances in Neural Information Processing Systems 36 (2023): 46534-46594. [arXiv:2303.17651](https://arxiv.org/abs/2303.17651).
 - Wei, Jason et al. "Chain-of-thought prompting elicits reasoning in large language models." Advances in neural information processing systems 35 (2022): 24824-24837.  [arXiv:2201.11903](https://arxiv.org/abs/2201.11903)
 - Yun, Yennie. Evaluating long context large language models. [artfish.ai](https://www.artfish.ai/p/long-context-llms), 2025.
