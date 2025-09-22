@@ -7,3 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "python-dotenv"
 ]
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.30.1"
+
