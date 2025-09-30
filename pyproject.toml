@@ -5,7 +5,19 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "python-dotenv"
+    "agentops>=0.4.21",
+    "autogen>=0.9.9",
+    "dspy>=3.0.3",
+    "fastapi>=0.118.0",
+    "langchain>=0.3.27",
+    "langgraph>=0.6.8",
+    "openai>=2.0.0",
+    "py-trees>=2.3.0",
+    "pydantic>=2.11.9",
+    "python-dotenv",
+    "semantic-kernel>=1.36.0",
+    "streamlit>=1.50.0",
+    "uvicorn>=0.37.0",
 ]
 
 [tool.poetry.group.dev.dependencies]
