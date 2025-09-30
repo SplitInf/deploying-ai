@@ -9,6 +9,7 @@ dependencies = [
     "autogen>=0.9.9",
     "dspy>=3.0.3",
     "fastapi>=0.118.0",
+    "ipykernel>=6.30.1",
     "langchain>=0.3.27",
     "langgraph>=0.6.8",
     "openai>=2.0.0",
