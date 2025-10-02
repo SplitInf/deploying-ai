@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "agentops>=0.4.21",
     "autogen>=0.9.9",
+    "chromadb>=1.1.0",
     "dspy>=3.0.3",
     "fastapi>=0.118.0",
     "ipykernel>=6.30.1",
