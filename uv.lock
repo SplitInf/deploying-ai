@@ -1072,14 +1072,16 @@ dependencies = [
     { name = "dspy" },
     { name = "fastapi" },
     { name = "gradio" },
+    { name = "gradio-tools" },
     { name = "ipykernel" },
     { name = "ipywidgets" },
-    { name = "langchain" },
+    { name = "langchain", extra = ["openai"] },
     { name = "langchain-community" },
     { name = "langchain-openai" },
     { name = "langgraph" },
     { name = "matplotlib" },
     { name = "openai" },
+    { name = "openai-gradio" },
     { name = "py-trees" },
     { name = "pydantic" },
     { name = "python-dotenv" },
@@ -1099,14 +1101,16 @@ requires-dist = [
     { name = "dspy", specifier = ">=3.0.3" },
     { name = "fastapi", specifier = ">=0.118.0" },
     { name = "gradio", specifier = ">=5.49.0" },
+    { name = "gradio-tools", specifier = ">=0.0.9" },
     { name = "ipykernel", specifier = ">=6.30.1" },
     { name = "ipywidgets", specifier = ">=8.1.7" },
-    { name = "langchain", specifier = ">=0.3.27" },
+    { name = "langchain", extras = ["openai"], specifier = ">=0.3.27" },
     { name = "langchain-community", specifier = ">=0.3.30" },
     { name = "langchain-openai", specifier = ">=0.3.34" },
     { name = "langgraph", specifier = ">=0.6.8" },
     { name = "matplotlib", specifier = ">=3.10.6" },
     { name = "openai", specifier = ">=2.0.0" },
+    { name = "openai-gradio", specifier = ">=0.0.4" },
     { name = "py-trees", specifier = ">=2.3.0" },
     { name = "pydantic", specifier = ">=2.11.9" },
     { name = "python-dotenv" },
@@ -1591,6 +1595,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/3e/a9/a3beb0ece8c05c33e6376b790fa42e0dd157abca8220cf639b249a597467/gradio_client-1.13.3.tar.gz", hash = "sha256:869b3e67e0f7a0f40df8c48c94de99183265cf4b7b1d9bd4623e336d219ffbe7", size = 323253, upload-time = "2025-09-26T19:51:21.7Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/6e/0b/337b74504681b5dde39f20d803bb09757f9973ecdc65fd4e819d4b11faf7/gradio_client-1.13.3-py3-none-any.whl", hash = "sha256:3f63e4d33a2899c1a12b10fe3cf77b82a6919ff1a1fb6391f6aa225811aa390c", size = 325350, upload-time = "2025-09-26T19:51:20.288Z" },
+]
+
+[[package]]
+name = "gradio-tools"
+version = "0.0.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "gradio-client" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ac/6d/368bf137bbfed5b2bca089324e50a247a87d6081a82ba03fdddad8b2857b/gradio_tools-0.0.9.tar.gz", hash = "sha256:c8553ed40b15c74d672d6b3475293580c97172d652f1b142184a01197ce0c6ce", size = 9495859, upload-time = "2023-05-12T15:47:22.222Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f6/7c/c5b3bd23c48a4a0b926fe9402c2f819422da31c977b882bbb0116cfdc9a0/gradio_tools-0.0.9-py3-none-any.whl", hash = "sha256:2095889326c6c19799381e05d4ade58d646944f716e5121ae0790ae3b9408f4e", size = 15189, upload-time = "2023-05-12T15:47:13.743Z" },
 ]
 
 [[package]]
@@ -2234,6 +2250,11 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/83/f6/f4f7f3a56626fe07e2bb330feb61254dbdf06c506e6b59a536a337da51cf/langchain-0.3.27.tar.gz", hash = "sha256:aa6f1e6274ff055d0fd36254176770f356ed0a8994297d1df47df341953cec62", size = 10233809, upload-time = "2025-07-24T14:42:32.959Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f6/d5/4861816a95b2f6993f1360cfb605aacb015506ee2090433a71de9cca8477/langchain-0.3.27-py3-none-any.whl", hash = "sha256:7b20c4f338826acb148d885b20a73a16e410ede9ee4f19bb02011852d5f98798", size = 1018194, upload-time = "2025-07-24T14:42:30.23Z" },
+]
+
+[package.optional-dependencies]
+openai = [
+    { name = "langchain-openai" },
 ]
 
 [[package]]
@@ -3079,6 +3100,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/d8/5d/74fa2b0358ef15d113b1a6ca2323cee0034020b085a81a94eeddc6914de9/openai-2.0.0.tar.gz", hash = "sha256:6b9513b485f856b0be6bc44c518831acb58e37a12bed72fcc52b1177d1fb34a8", size = 565732, upload-time = "2025-09-30T17:35:57.632Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/69/41/86ddc9cdd885acc02ee50ec24ea1c5e324eea0c7a471ee841a7088653558/openai-2.0.0-py3-none-any.whl", hash = "sha256:a79f493651f9843a6c54789a83f3b2db56df0e1770f7dcbe98bcf0e967ee2148", size = 955538, upload-time = "2025-09-30T17:35:54.695Z" },
+]
+
+[[package]]
+name = "openai-gradio"
+version = "0.0.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "gradio" },
+    { name = "openai" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/50/cb/71f3f4d9e08598b5eb80b180b06832dde14ff1003314dc70614b68d804ad/openai_gradio-0.0.4.tar.gz", hash = "sha256:59adde120acf949b15f000774af17bf68e0973f1ed94b639c8a79a40c80d402f", size = 109111, upload-time = "2024-11-21T01:19:24.248Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ad/69/b54acff76966a2024a8504fea4d2b5608d3b6d3dd163c637a12218488e61/openai_gradio-0.0.4-py3-none-any.whl", hash = "sha256:cdc0ed60abe8ef7aab04be78938ee81c73706082e1a2aa02eacb631dd3479879", size = 3712, upload-time = "2024-11-21T01:19:23.225Z" },
 ]
 
 [[package]]
