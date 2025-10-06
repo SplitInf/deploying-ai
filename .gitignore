@@ -5,6 +5,7 @@ build/
 dist/
 wheels/
 *.egg-info
+.deepeval_telemetry.txt
 
 # Virtual environments
 .venv
