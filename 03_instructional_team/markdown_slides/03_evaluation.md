@@ -908,9 +908,7 @@ Code generation capability | pass@1 |  HumanEval | > 90% | >95%
 
 ---
 
-## Open vs Closed Models: 
-
-
+# Open vs Closed Models
 
 ---
 
@@ -941,11 +939,7 @@ Code generation capability | pass@1 |  HumanEval | > 90% | >95%
 - Handling: disclose contamination, evaluate on clean subsets.
 - Lesson: don’t fully trust public benchmark scores.
 
-
-
-
 ---
-
 
 # Designing an Evaluation Pipeline
 
@@ -981,10 +975,10 @@ Code generation capability | pass@1 |  HumanEval | > 90% | >95%
 
 ## Continuous Evaluation
 
-- Evaluation should be performed during all stages of development .  
+- Evaluation should be performed during all stages of development.  
 - Early tests can be simple (eyeballing, small benchmarks) but most tests must scale later.  
-- Over time, evaluation should become systematic and automated .  
-- This enables faster iteration while maintaining reliability .  
+- Over time, evaluation should become systematic and automated.  
+- This enables faster iteration while maintaining reliability.  
 - If you care about something, test it automatically.
 
 ---

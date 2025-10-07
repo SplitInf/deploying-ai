@@ -5,8 +5,16 @@ build/
 dist/
 wheels/
 *.egg-info
+.deepeval_telemetry.txt
 
 # Virtual environments
 .venv
 uv.lock
 deploying-ai-env
+
+# Secrets
+.secrets
+
+
+# Logs
+*.log
