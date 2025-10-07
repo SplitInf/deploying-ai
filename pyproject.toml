@@ -1,5 +1,5 @@
 [project]
-name = "deploying-ai"
+name = "deploying-ai-env"
 version = "0.1.0"
 description = "Package dependencies for the course Deploying AI taught at the Data Sciences Institute of the University of Toronto."
 readme = "README.md"

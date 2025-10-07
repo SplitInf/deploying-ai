@@ -9,6 +9,8 @@ wheels/
 
 # Virtual environments
 .venv
+uv.lock
+deploying-ai-env
 
 # Secrets
 .secrets
