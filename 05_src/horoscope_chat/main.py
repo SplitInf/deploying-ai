@@ -4,12 +4,18 @@ from horoscope_chat.prompts import return_instructions_root
 import json
 import requests
 from utils.logger import get_logger
+import os
+
 
 _logs = get_logger(__name__)
 
-load_dotenv('.secrets')
+load_dotenv(".env")
+load_dotenv(".secrets")
+
 
 client = OpenAI()
+
+open_ai_model = os.getenv("OPENAI_MODEL", "gpt-4")
 
 tools = [
     {
@@ -23,9 +29,14 @@ tools = [
                 "sign": {
                     "type": "string",
                     "description": "An astrological sign like Taurus or Aquarius",
+                },
+                "date": {
+                    "type": "string",
+                    "description": 'The date for the horoscope. Accepted values are: Date in format (YYYY-MM-DD) OR "TODAY" OR "TOMORROW" OR "YESTERDAY". If not specified, defaults to "TODAY".',
+                    "default": "TODAY"
                 }
             },
-            "required": ["sign"],
+            "required": ["sign", "date"],
             "additionalProperties": False
         },
         
@@ -92,7 +103,7 @@ def horoscope_chat(message: str, history: list[dict] = []) -> str:
     conversation_input = sanitize_history(history) + [user_msg]
     
     response = client.responses.create(
-        model="gpt-5",  
+        model=open_ai_model,  
         instructions=instructions,
         input=conversation_input,
         tools=tools,
@@ -127,14 +138,12 @@ def horoscope_chat(message: str, history: list[dict] = []) -> str:
                 
                 # Make second API call with function result
                 response = client.responses.create(
-                    model="gpt-5",
+                    model=open_ai_model,
                     instructions=instructions,
                     tools=tools,
                     input=conversation_input
                 )
                 break
     
-    # Update the original history with the new message
-    history.append({"role": "user", "content": message})
     
     return response.output_text
