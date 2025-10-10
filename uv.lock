@@ -1061,7 +1061,7 @@ wheels = [
 ]
 
 [[package]]
-name = "deploying-ai"
+name = "deploying-ai-env"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
@@ -1085,6 +1085,7 @@ dependencies = [
     { name = "py-trees" },
     { name = "pydantic" },
     { name = "python-dotenv" },
+    { name = "requests" },
     { name = "scikit-learn" },
     { name = "semantic-kernel" },
     { name = "streamlit" },
@@ -1114,6 +1115,7 @@ requires-dist = [
     { name = "py-trees", specifier = ">=2.3.0" },
     { name = "pydantic", specifier = ">=2.11.9" },
     { name = "python-dotenv" },
+    { name = "requests", specifier = ">=2.32.5" },
     { name = "scikit-learn", specifier = ">=1.7.2" },
     { name = "semantic-kernel", specifier = ">=1.36.0" },
     { name = "streamlit", specifier = ">=1.50.0" },
@@ -3085,7 +3087,7 @@ wheels = [
 
 [[package]]
 name = "openai"
-version = "2.0.0"
+version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -3097,9 +3099,9 @@ dependencies = [
     { name = "tqdm" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d8/5d/74fa2b0358ef15d113b1a6ca2323cee0034020b085a81a94eeddc6914de9/openai-2.0.0.tar.gz", hash = "sha256:6b9513b485f856b0be6bc44c518831acb58e37a12bed72fcc52b1177d1fb34a8", size = 565732, upload-time = "2025-09-30T17:35:57.632Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b8/b1/8201e321a7d64a25c6f5a560320272d8be70547add40311fceb916518632/openai-2.2.0.tar.gz", hash = "sha256:bc49d077a8bf0e370eec4d038bc05e232c20855a19df0b58e5b3e5a8da7d33e0", size = 588512, upload-time = "2025-10-06T18:08:13.665Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/69/41/86ddc9cdd885acc02ee50ec24ea1c5e324eea0c7a471ee841a7088653558/openai-2.0.0-py3-none-any.whl", hash = "sha256:a79f493651f9843a6c54789a83f3b2db56df0e1770f7dcbe98bcf0e967ee2148", size = 955538, upload-time = "2025-09-30T17:35:54.695Z" },
+    { url = "https://files.pythonhosted.org/packages/cb/92/6aeef1836e66dfec7f7f160a4f06d7041be7f6ccfc47a2f0f5738b332245/openai-2.2.0-py3-none-any.whl", hash = "sha256:d222e63436e33f3134a3d7ce490dc2d2f146fa98036eb65cc225df3ce163916f", size = 998972, upload-time = "2025-10-06T18:08:11.775Z" },
 ]
 
 [[package]]

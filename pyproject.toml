@@ -30,4 +30,5 @@ dependencies = [
     "streamlit>=1.50.0",
     "unstructured>=0.18.15",
     "uvicorn>=0.37.0",
+    "requests>=2.32.5",
 ]
