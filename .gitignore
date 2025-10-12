@@ -18,3 +18,8 @@ deploying-ai-env
 
 # Logs
 *.log
+
+# documents
+*.sqlite
+*.jsonl
+*.htm
