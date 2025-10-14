@@ -31,4 +31,7 @@ dependencies = [
     "unstructured>=0.18.15",
     "uvicorn>=0.37.0",
     "requests>=2.32.5",
+    "jq",
+    "sentence-transformers>=5.1.1",
+    "tqdm>=4.67.1",
 ]

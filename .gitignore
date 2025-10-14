@@ -13,8 +13,14 @@ uv.lock
 deploying-ai-env
 
 # Secrets
-.secrets
+*.secrets
+*.secrets_*
 
 
 # Logs
 *.log
+
+# documents
+*.sqlite
+*.jsonl
+*.htm
