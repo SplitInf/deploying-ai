@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: dsi-certificates-theme
+theme: dsi_certificates_theme
 _class: invert
 paginate: true
 ---
@@ -19,7 +19,7 @@ p.right-align {
 ## Understanding Foundation Models
 
 ```code
-$ echo "Data Science Institute"
+$ echo "Data Sciences Institute"
 ```
 ---
 
