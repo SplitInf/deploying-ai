@@ -34,4 +34,5 @@ dependencies = [
     "jq",
     "sentence-transformers>=5.1.1",
     "tqdm>=4.67.1",
+    "hf-xet>=1.1.10",
 ]
