@@ -35,4 +35,6 @@ dependencies = [
     "sentence-transformers>=5.1.1",
     "tqdm>=4.67.1",
     "hf-xet>=1.1.10",
+    "adjusttext>=1.3.0",
+    "seaborn>=0.13.2",
 ]
