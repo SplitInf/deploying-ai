@@ -25,3 +25,4 @@ deploying-ai-env
 *.sqlite
 *.jsonl
 *.htm
+*.txt
