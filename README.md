@@ -83,7 +83,7 @@ By the end of this module, participants will be able to:
 
 ## Contacts
 
-**Questions can be submitted to the _#cohort-3-help_ channel on Slack**
+**Questions can be submitted to the _help_ channel on Slack**
 
 * Technical Facilitator: 
   * [Jesús Calderón](https://www.linkedin.com/in/jcalderon/)

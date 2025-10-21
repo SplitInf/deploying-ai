@@ -35,6 +35,12 @@ Open a terminal (macOS/Linux) or Git Bash (Windows) in this repo, and run the fo
     uv sync --active
     ```
 
+> **Note:**  
+> - The `deploying-ai-env` folder is intentionally created inside this repository.  
+> - This helps Visual Studio Code detect and attach the correct Python kernel automatically.  
+> - It’s not hidden because participants should be able to see it, understand its purpose, and, if needed, delete and recreate it.  
+> - The folder is safely listed in `.gitignore`, so it won’t be pushed to GitHub.
+
 ## Environment Usage
 In order to run any code in this repo, you must first activate its environment.
 - for macOS/Linux:
