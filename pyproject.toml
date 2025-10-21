@@ -40,6 +40,5 @@ dependencies = [
     "sqlalchemy>=2.0.43",
     "psycopg2>=2.9.11",
     "fastmcp>=2.12.5",
-    "ngrok>=1.5.1",
     "pypdf>=6.1.1",
 ]
