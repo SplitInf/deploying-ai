@@ -15,8 +15,33 @@ services:
       retries: 5
     networks:
       - chromanet
+  db:
+      image: postgres:16-alpine # Or a specific version like postgres:17.2-alpine
+      container_name: postgres_db
+      restart: always
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: humanafterall
+        POSTGRES_DB: reviews_db
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+      ports:
+        - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: humanafterall
+    ports:
+      - "8080:80" # Access pgAdmin at http://localhost:8080
+    depends_on:
+      - db
 
 volumes:
+  pgdata:
   chroma_data:
 
 networks:

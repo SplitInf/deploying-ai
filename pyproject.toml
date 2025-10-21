@@ -34,4 +34,12 @@ dependencies = [
     "jq",
     "sentence-transformers>=5.1.1",
     "tqdm>=4.67.1",
+    "hf-xet>=1.1.10",
+    "adjusttext>=1.3.0",
+    "seaborn>=0.13.2",
+    "sqlalchemy>=2.0.43",
+    "psycopg2>=2.9.11",
+    "fastmcp>=2.12.5",
+    "ngrok>=1.5.1",
+    "pypdf>=6.1.1",
 ]

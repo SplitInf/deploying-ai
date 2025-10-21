@@ -88,9 +88,9 @@ By the end of this module, participants will be able to:
 * Technical Facilitator: 
   * [Jesús Calderón](https://www.linkedin.com/in/jcalderon/)
   
-* Learning Support Staff: 
-  * [TBD]() 
-  * [TBD]()
+* Learning Support: 
+  * [ Vishnou Vinayagame](https://www.linkedin.com/in/vinayagame-vishnou/) 
+  
 
 ## Delivery of the Learning Module
 
@@ -100,8 +100,22 @@ Participants are encouraged to engage actively during the learning module. They 
 
 # Schedule
 
-|Live Learning Session |Date        |Topic                             |
+|Type |Date        |Topic                             |
 |-----|------------|----------------------------------|
+|Live| Oct. 21 | Introduction|
+|Live| Oct. 22 | Foundation Models |
+|Live| Oct. 23 | Evaluation |
+|Work| Oct. 24 | Work Period |
+|Live| Oct. 28 | Prompt Engineering |
+|Live| Oct. 29 | Retrieval Augmented Generation |
+|Live| Oct. 30 | Tools and Agents |
+|Work| Oct. 31 | Work Period |
+|Deadline| Nov. 2| Assignment 1 Due |
+|Live| Nov. 4  | Fine Tuning |
+|Live| Nov. 5  | Dataset Engineering |
+|Live| Nov. 6  | Optimization |
+|Work| Nov. 7  | Work Period   |
+|Deadline| Nov. 9 | Assignment 2 Due |
 
 ### Requirements
 * Participants are not expected to have any coding experience; the learning content has been designed for beginners.
@@ -118,7 +132,7 @@ Your performance on this module will be assessed using six quizzes and two assig
 
 #### Quizzes
 
-Quizzes will help you build key concepts in data science, data engineering, and machine learning engineering. Historically, learners take 5-10 minutes to answer each quizz to obtain an average score of +80%. 
+Quizzes will help you build key concepts in foundation models and AI Engineering. In our experience, learners take 5-10 minutes to answer each quiz to obtain an average score of +80%. 
 
 + Each quiz will contain material from each live learning session.
 + You will receive a link to each quiz during the respective live learning session. The links are personalized, please do not share them. If you did not receive a link, contact any member of the course delivery team.
@@ -194,6 +208,15 @@ A different learner with grades as shown bellow would receive "fail":
 + Docker Desktop [Documnetation](https://docs.docker.com/desktop/)
 + [What is Docker?](https://www.youtube.com/watch?v=Gjnup-PuquQ) on Youtube
 + A [playlist with tutorials about Docker](https://www.youtube.com/playlist?list=PLe4mIUXfbIqaYmsoFahYCbijPU4rjM38h) on YouTube
+
+### Tools and API
+
++ [OpenAI Documentation](https://platform.openai.com/docs/concepts)
++ [OpenAI Platform](https://platform.openai.com/)
++ [OpenAI Cookbook](https://cookbook.openai.com/)
++ [LangChain](https://www.langchain.com/)
+
+
 
 ## Folder Structure
 
