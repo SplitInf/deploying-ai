@@ -132,7 +132,7 @@ Your performance on this module will be assessed using six quizzes and two assig
 
 #### Quizzes
 
-Quizzes will help you build key concepts in foundation models and AI Engineering. In our experience, learners take 5-10 minutes to answer each quizz to obtain an average score of +80%. 
+Quizzes will help you build key concepts in foundation models and AI Engineering. In our experience, learners take 5-10 minutes to answer each quiz to obtain an average score of +80%. 
 
 + Each quiz will contain material from each live learning session.
 + You will receive a link to each quiz during the respective live learning session. The links are personalized, please do not share them. If you did not receive a link, contact any member of the course delivery team.
