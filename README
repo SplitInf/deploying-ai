@@ -1,0 +1,5 @@
+#install new packages#
+uv pip install feedparser
+
+#activate environment
+source deploying-ai-env/bin/activate    
